@@ -57,26 +57,22 @@ public class JanelaPrincipal
 	public void adicionaBotoes(JPanel painel, JFrame janelaPrincipal)
 	{
 		JButton rankingPrincipal = new JButton("Ranking internacional casos/recuperados/mortos por período");
-		JButton ranking100K = new JButton("Ranking internacional casos/recuperados/mortos por 100K habitantes por período");
 		JButton rankingCrescimento = new JButton("Ranking internacional de crescimento de casos/recuperados/mortos por período");
 		JButton rankingMortalidade = new JButton("Ranking internacional de mortalidade por período");
 		JButton locaisProximosMaior = new JButton("Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)");
-		JButton consultas = new JButton("Guardar consultas feitas");
 		JButton exportarRankings = new JButton("Exportar rankings para arquivo CSV/TSV");
 		
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
 		rankingPrincipal.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		ranking100K.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
 		rankingCrescimento.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		rankingMortalidade.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		locaisProximosMaior.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		consultas.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
 		exportarRankings.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -89,19 +85,14 @@ public class JanelaPrincipal
 
 		painel.add(rankingPrincipal);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		painel.add(ranking100K);
-		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(rankingCrescimento);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(rankingMortalidade);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(locaisProximosMaior);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		painel.add(consultas);
-		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(exportarRankings);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		consultas.setEnabled(false);		
 		
 	}
 	
@@ -154,9 +145,9 @@ public class JanelaPrincipal
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		regiaoPrincipal.add(painel);
 		
-		JLabel msgPrimeiraData = new JLabel("Digite a primeira data (dd/mm/aaaa): ");
+		JLabel msgPrimeiraData = new JLabel("Digite a data de ínicio da busca (dd/mm/aaaa): ");
 		msgPrimeiraData.setAlignmentX(Component.CENTER_ALIGNMENT);
-		JLabel msgSegundaData = new JLabel("Digite a segunda data (dd/mm/aaaa): ");
+		JLabel msgSegundaData = new JLabel("Digite a data de fim da busca (dd/mm/aaaa): ");
 		msgSegundaData.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton botaoOk = new JButton("OK");
 		
