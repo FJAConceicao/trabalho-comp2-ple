@@ -1,4 +1,6 @@
-package br.ufrj.dcc.comp2.projeto_final.eflpt;
+package br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas;
+
+import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,8 +22,6 @@ public abstract class Estatistica
 	
 	public abstract LocalDate dataFim();
 	
-	public abstract void valor();
-	
-	
+	public abstract float valor();
 
 }
