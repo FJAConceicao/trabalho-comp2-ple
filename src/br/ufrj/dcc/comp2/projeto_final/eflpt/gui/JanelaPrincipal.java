@@ -133,6 +133,7 @@ public class JanelaPrincipal
 	}
 	
 	
+	@SuppressWarnings("serial")
 	public void abreJanelaRecebePeriodo(JFrame janelaPrincipal, Integer raio)
 	{
 		janelaPrincipal.setEnabled(false);
@@ -222,6 +223,7 @@ public class JanelaPrincipal
 		});		
 	}	
 	
+	@SuppressWarnings("serial")
 	public void abreJanelaRecebeRaio(JFrame janelaPrincipal)
 	{
 		janelaPrincipal.setEnabled(false);
