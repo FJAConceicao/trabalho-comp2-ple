@@ -15,6 +15,7 @@ import java.net.*;
 import java.net.http.*;
 import java.net.http.HttpClient.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class RequisicaoInicial
@@ -105,6 +106,16 @@ public class RequisicaoInicial
    public void realizaOperacoesTipo(String tipo, Iterator<Pais> i, Dados d, StatusCaso status)
    {
 	   Pais paisAtual;
+	   ArrayList<Medicao> tipoDados;
+	   
+	   if (status == StatusCaso.CONFIRMADOS)
+		   tipoDados = d.getConfirmados();
+	   
+	   else if (status == StatusCaso.MORTOS)
+		   tipoDados = d.getMortos();
+	   
+	   else
+		   tipoDados = d.getRecuperados();
 	   
 	   while (i.hasNext())
 	   {
@@ -127,7 +138,7 @@ public class RequisicaoInicial
 				
 			    int codStatus = resposta.statusCode();
 			    
-			    if (codStatus >= 200 || codStatus < 300)
+			    if (codStatus >= 200 && codStatus < 300)
 			    {
 				    try 
 				    {
@@ -148,14 +159,16 @@ public class RequisicaoInicial
 					        
 					        paisAtual.setaInfo(codigo, latitude, longitude);			        
 					        
-					        d.getConfirmados().add(new Medicao(paisAtual, momento, (int) casos, status));
+					        tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
 					        
 					        while (iterador.hasNext())	
 					        {
 					        	linha = iterador.next();
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-					        	d.getConfirmados().add(new Medicao(paisAtual, momento, (int) casos, status));
+					        	
+					        	if (casos != 0)
+					        		tipoDados.add(new Medicao(paisAtual, momento, (int) casos, status));
 					        	System.out.println(paisAtual.getNome() + "\t" + casos);
 					        }
 				        }
