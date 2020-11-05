@@ -16,6 +16,15 @@ public class Medicao
        this.casos = casos;
        this.status = status;
     }
+    
+    public Medicao(Medicao m)
+    {
+    	this.pais = new Pais(m.getPais());
+    	this.momento = m.getMomento();
+        this.casos = m.getCasos();
+        this.status = m.getStatus();
+    	
+    }
 
     public Pais getPais()
     {

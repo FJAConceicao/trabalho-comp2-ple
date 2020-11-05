@@ -38,6 +38,9 @@ public class Main {
                  + "\t" + atual.getLatitude() +"\t" + atual.getLongitude() + "\t"
                                  + t.getMomento().toString() + "\t" + t.getCasos() + "\t" + t.getStatus());
          }
+         
+         JanelaPrincipal janela = new JanelaPrincipal();
+         janela.iniciaJanelaPrincipal();
 
 
 	}
