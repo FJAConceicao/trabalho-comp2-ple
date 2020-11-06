@@ -46,13 +46,13 @@ public class RequisicaoInicial
 			    {
 			        JSONArray paises = (JSONArray) new JSONParser().parse(resposta.body());
 			        
-			        for (Object pais : paises) 
+			        for (Object pais : paises)
 			        {				
 			            String nomePais = (String)	((JSONObject) pais).get("Country");
 			            String slugPais = (String)	((JSONObject) pais).get("Slug");
 			            paisAtual = new Pais(nomePais, slugPais);
-			            d.getPaises().add(new Pais(nomePais, slugPais));
-			            requisitarInformacoesPais(d, paisAtual);
+						requisitarInformacoesPais(paisAtual);
+			            d.getPaises().add(new Pais(paisAtual));
 			        }				
 			    } 
 				
@@ -84,7 +84,7 @@ public class RequisicaoInicial
 		}	   
    }
    
-   public void requisitarInformacoesPais(Dados d, Pais paisAtual)
+   public void requisitarInformacoesPais(Pais paisAtual)
    {
 	   String codigo;
        float latitude;
@@ -237,7 +237,7 @@ public class RequisicaoInicial
 					        	linha = iterador.next();
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
+					        	tipoDados.add(new Medicao(paisAtual, momento, (int) casos, status));
 					        	System.out.println(paisAtual.getNome() + "\t" + casos);
 					        	
 					        }
