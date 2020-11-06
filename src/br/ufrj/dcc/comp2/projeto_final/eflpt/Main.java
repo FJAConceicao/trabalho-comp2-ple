@@ -1,5 +1,7 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt;
 
+import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.database.Controle;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaPrincipal;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.requisicoes.RequisicaoInicial;
@@ -8,12 +10,10 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
+		 ArquivoBase arqs = new ArquivoBase();
+		 Controle c = new Controle();
 		 Dados d = Dados.retornaInstancia();
          RequisicaoInicial i = new RequisicaoInicial();
-		 i.requisitarPaises(d);
-         i.requisitarConfirmados(d);
-         i.requisitarMortes(d);
-         i.requisitarRecuperados(d);
 
          for (var t : d.getConfirmados())
          {
@@ -42,6 +42,9 @@ public class Main {
          JanelaPrincipal janela = new JanelaPrincipal();
          janela.iniciaJanelaPrincipal();
 
+         arqs.salvaArquivoConfirmados();
+         arqs.salvaArquivoMortos();
+         arqs.salvaArquivoRecuperados();
 
 	}
 
