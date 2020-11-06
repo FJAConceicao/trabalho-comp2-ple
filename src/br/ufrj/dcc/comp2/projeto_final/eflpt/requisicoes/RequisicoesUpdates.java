@@ -21,8 +21,7 @@ import java.util.Iterator;
 public class RequisicoesUpdates 
 {
 	public ArrayList<Medicao> realizaOperacoesAtualizacao(String tipo, String slug, String ultimaData, Dados d, StatusCaso status, Pais pais)
-	{
-			
+	{		
 	   ArrayList<Medicao> resultados = new ArrayList<Medicao>();
 	   ArrayList<Medicao> tipoDados;
 	   
@@ -43,7 +42,7 @@ public class RequisicoesUpdates
                .build();
 
 	   HttpRequest requisicao = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.covid19api.com/total/country/" + slug + "/status/" + tipo + "?from=" + ultimaData + "&to=" + dataAtual))
+                    .uri(URI.create("https://api.covid19api.com/total/country/" + slug + "/status/" + tipo + "?from=" + ultimaData + "&to=" + dataAtual + "Z"))
                     .build();
 	   
 	   try 
