@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -79,6 +80,7 @@ public class ArquivoBase
 		int casos;
 		ArrayList<Medicao> tipoDados;
 		String tipo;
+		momento = LocalDateTime.now(); // apenas para inicializar
 		
 		if (status == StatusCaso.CONFIRMADOS)
 		{
@@ -118,21 +120,28 @@ public class ArquivoBase
 				latitude = Float.parseFloat(aux.split("\t")[3]);
 				longitude = Float.parseFloat(aux.split("\t")[4]);
 				paisAtual = new Pais(nome_pais, codigo, slug, latitude, longitude);
-				central.getPaises().add(new Pais(nome_pais, codigo, slug, latitude, longitude));
-				momento = LocalDateTime.parse(aux.split("\t")[5]);
+				central.getPaises().add(new Pais(paisAtual));
 				
-				while (leitor.ready() && paisAtual.getNome().intern() == aux.split("\t")[0].intern())
-				{
-					
+				while (aux != null && paisAtual.getNome().intern() == aux.split("\t")[0].intern())
+				{					
 					momento = LocalDateTime.parse(aux.split("\t")[5]);
 					casos = Integer.parseInt(aux.split("\t")[6]);
 					
 					tipoDados.add(new Medicao(new Pais(paisAtual), momento, casos, status));
-					
 					aux = leitor.readLine();
 				}
-				atualizador.realizaAtualizacoes(tipo, status, paisAtual.getSlug(), momento + ":00Z", tipoDados, paisAtual);
 				
+				LocalDateTime agora = LocalDateTime.now();
+				LocalTime meiaNoite = LocalTime.MIDNIGHT;
+				
+				boolean igualdadeDia = momento.plusDays(1).isBefore(LocalDateTime.of(agora.toLocalDate(), meiaNoite))
+						&& !momento.plusDays(1).equals(LocalDateTime.of(agora.toLocalDate(), meiaNoite));
+				
+				if (igualdadeDia)
+				{
+					atualizador.realizaAtualizacoes(tipo, status, paisAtual.getSlug(), momento.plusDays(1).toString() + ":00Z", paisAtual);
+				}
+					
 			}
 			
 			leitor.close();		
