@@ -29,28 +29,30 @@ public class RequisicaoInicial
 
 
 
-	   HttpRequest requisicao = HttpRequest.newBuilder()
+	   HttpRequest requisicaoPais = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.covid19api.com/countries"))
                     .build();
-	   
+	   Pais paisAtual;
 	   try 
 	   {
 			
-		    HttpResponse<String> resposta = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
+		    HttpResponse<String> resposta = cliente.send(requisicaoPais, HttpResponse.BodyHandlers.ofString());
 			
 		    int codStatus = resposta.statusCode();
 		    
-		    if (codStatus >= 200 || codStatus < 300)
+		    if (codStatus >= 200 && codStatus < 300)
 		    {
 			    try 
 			    {
 			        JSONArray paises = (JSONArray) new JSONParser().parse(resposta.body());
 			        
-			        for (Object pais : paises) 
+			        for (Object pais : paises)
 			        {				
 			            String nomePais = (String)	((JSONObject) pais).get("Country");
 			            String slugPais = (String)	((JSONObject) pais).get("Slug");
-			            d.getPaises().add(new Pais(nomePais, slugPais));	
+			            paisAtual = new Pais(nomePais, slugPais);
+						requisitarInformacoesPais(paisAtual);
+			            d.getPaises().add(new Pais(paisAtual));
 			        }				
 			    } 
 				
@@ -82,31 +84,121 @@ public class RequisicaoInicial
 		}	   
    }
    
-   public void requisitarConfirmados(Dados d)
+   public void requisitarInformacoesPais(Pais paisAtual)
    {
-	   Iterator<Pais> i = d.getPaises().iterator();     
+	   String codigo;
+       float latitude;
+       float longitude;
+       
+       HttpClient cliente = HttpClient.newBuilder()
+	               .version(Version.HTTP_2)
+	               .followRedirects(Redirect.ALWAYS)
+	               .build();
+       
+	
+       HttpRequest requisicao;
+       
+       if (paisAtual.getSlug().intern() == "united-states")
+       
+    	   requisicao = HttpRequest.newBuilder()
+	                    .uri(URI.create("https://api.covid19api.com/live/country/" + paisAtual.getSlug() + "/status/confirmed"))
+	                    .build();
+       else
+    	   requisicao = HttpRequest.newBuilder()
+           .uri(URI.create("https://api.covid19api.com/country/" + paisAtual.getSlug() + "/status/confirmed"))
+           .build();
+		   
+	   try 
+	   {
+			
+		    HttpResponse<String> resposta = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
+			
+		    int codStatus = resposta.statusCode();
+		    
+		    if (codStatus >= 200 && codStatus < 300)
+		    {
+			    try 
+			    {
+			        JSONArray casosPais = (JSONArray) new JSONParser().parse(resposta.body());
+			        
+				    Iterator<JSONArray> iterador = casosPais.iterator();
+				        
+			        if (iterador.hasNext())
+			        {
+				        Object linha = iterador.next();
+				        
+				        codigo = (String)	((JSONObject) linha).get("CountryCode");
+				        latitude = Float.parseFloat((String)	((JSONObject) linha).get("Lat"));
+				        longitude = Float.parseFloat((String)	((JSONObject) linha).get("Lon"));
+				        paisAtual.setaInfo(codigo, latitude, longitude);
+				        System.out.println(paisAtual.getNome());
+			        }
+			    }
+			    
+			    catch (ClassCastException d)
+			    {
+			    	
+			    }
+				
+			    catch (ParseException e) {
+				
+			        System.err.println("Resposta inválida");
+				
+			        e.printStackTrace();
+				
+			    }
+		    }
+		    else
+		    	System.out.println(codStatus);
+		    	// Imprimir janela de erro com código de status e encerrar o programa.
+			
+		} 
+			
+		catch (IOException e) {
+			
+		    System.err.println("Problema com a conexão");
+		    // Imprimir janela de erro com código de status e encerrar o programa.
+		    e.printStackTrace();
+			
+		} 
+			
+		catch (InterruptedException e) {
+			
+		    System.err.println("Requisição interrompida");
+		    // Imprimir janela de erro com código de status e encerrar o programa.
+		    e.printStackTrace();
+			
+		}
+
+   }
+
+   
+   public void requisitarConfirmados(Dados d)
+   { 
 	   StatusCaso confirmado = StatusCaso.CONFIRMADOS;
-	   realizaOperacoesTipo("confirmed", i, d, confirmado);
+	   realizaOperacoesTipo("confirmed", d, confirmado);
    }
    
    public void requisitarMortes(Dados d)
    {
-	   Iterator<Pais> i = d.getPaises().iterator();
 	   StatusCaso mortes = StatusCaso.MORTOS;
-	   realizaOperacoesTipo("deaths", i, d, mortes);
+	   realizaOperacoesTipo("deaths", d, mortes);
    }
    
    public void requisitarRecuperados(Dados d)
    {
-	   Iterator<Pais> i = d.getPaises().iterator();
+	   
 	   StatusCaso recuperados = StatusCaso.RECUPERADOS;
-	   realizaOperacoesTipo("recovered", i, d, recuperados);
+	   realizaOperacoesTipo("recovered", d, recuperados);
    }
    
-   public void realizaOperacoesTipo(String tipo, Iterator<Pais> i, Dados d, StatusCaso status)
+   public void realizaOperacoesTipo(String tipo, Dados d, StatusCaso status)
    {
+	   Iterator<Pais> i = d.getPaises().iterator();
 	   Pais paisAtual;
 	   ArrayList<Medicao> tipoDados;
+       LocalDateTime momento;
+       long casos;
 	   
 	   if (status == StatusCaso.CONFIRMADOS)
 		   tipoDados = d.getConfirmados();
@@ -121,14 +213,13 @@ public class RequisicaoInicial
 	   {
 		   paisAtual = i.next();
 		   
-		   
 		   HttpClient cliente = HttpClient.newBuilder()
 	               .version(Version.HTTP_2)
 	               .followRedirects(Redirect.ALWAYS)
 	               .build();
 	
 		   HttpRequest requisicao = HttpRequest.newBuilder()
-	                    .uri(URI.create("https://api.covid19api.com/total/dayone/country/" + paisAtual.getSlug() + "/status/" + tipo))
+	                    .uri(URI.create("https://api.covid19api.com/total/country/" + paisAtual.getSlug() + "/status/" + tipo))
 	                    .build();
 		   
 		   try 
@@ -148,28 +239,23 @@ public class RequisicaoInicial
 				        
 				        if (iterador.hasNext())
 				        {
-				        
 					        Object linha = iterador.next();
 					        
-					        String codigo = (String)	((JSONObject) linha).get("Country Code");
-					        float latitude = Float.parseFloat((String)	((JSONObject) linha).get("Lat"));
-					        float longitude = Float.parseFloat((String)	((JSONObject) linha).get("Lon"));
-					        LocalDateTime momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
-					        long casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-					        
-					        paisAtual.setaInfo(codigo, latitude, longitude);			        
+					        momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
+					        casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
+					     	        
 					        
 					        tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
+					        
 					        
 					        while (iterador.hasNext())	
 					        {
 					        	linha = iterador.next();
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-					        	
-					        	if (casos != 0)
-					        		tipoDados.add(new Medicao(paisAtual, momento, (int) casos, status));
+					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
 					        	System.out.println(paisAtual.getNome() + "\t" + casos);
+					        	
 					        }
 				        }
 				    } 
@@ -177,20 +263,21 @@ public class RequisicaoInicial
 				    catch (ParseException e) {
 					
 				        System.err.println("Resposta inválida");
-					
+				        // Imprimir janela de erro com código de status e encerrar o programa.
 				        e.printStackTrace();
 					
 				    }
 			    }
 			    else
 			    	System.out.println(codStatus);
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 				
 			} 
 				
 			catch (IOException e) {
 				
 			    System.err.println("Problema com a conexão");
-				
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 			    e.printStackTrace();
 				
 			} 
@@ -198,7 +285,7 @@ public class RequisicaoInicial
 			catch (InterruptedException e) {
 				
 			    System.err.println("Requisição interrompida");
-				
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 			    e.printStackTrace();
 				
 			}

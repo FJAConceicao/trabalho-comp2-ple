@@ -30,20 +30,10 @@ public class Controle
 		
 	}
 	
-	public void realizaAtualizacoes(String tipo, StatusCaso status, String slug, String ultimaMedicao, ArrayList<Medicao> lista, Pais pais)
+	public void realizaAtualizacoes(String tipo, StatusCaso status, String slug, String ultimaMedicao, Pais pais)
 	{
 		RequisicoesUpdates atualizador = new RequisicoesUpdates();
-		ArrayList<Medicao> resultado;
-		resultado = atualizador.realizaOperacoesAtualizacao(tipo, slug, ultimaMedicao, d, status, pais);
-		
-		if (!resultado.isEmpty() && resultado != null)
-		{
-			for (Medicao m : resultado)
-			{
-				lista.add(new Medicao(m));
-			}
-		}
-		
+		atualizador.realizaOperacoesAtualizacao(tipo, slug, ultimaMedicao, d, status, pais);	
 	}
 	
 	
