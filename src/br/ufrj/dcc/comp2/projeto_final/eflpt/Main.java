@@ -14,22 +14,7 @@ public class Main {
 		 Controle c = new Controle();
 		 Dados d = Dados.retornaInstancia();
          RequisicaoInicial i = new RequisicaoInicial();
-
-         for (var t : d.getConfirmados())
-         {
-                 Pais atual = t.getPais();
-                 System.out.println(atual.getNome() + "\t" + atual.getSlug() + "\t" + atual.getCodigo()
-                 + "\t" + atual.getLatitude() +"\t" + atual.getLongitude() + "\t"
-                                 + t.getMomento().toString() + "\t" + t.getCasos() + "\t" + t.getStatus());
-         }
-
-         for (var t : d.getMortos())
-         {
-                 Pais atual = t.getPais();
-                 System.out.println(atual.getNome() + "\t" + atual.getSlug() + "\t" + atual.getCodigo()
-                 + "\t" + atual.getLatitude() +"\t" + atual.getLongitude() + "\t"
-                                 + t.getMomento().toString() + "\t" + t.getCasos() + "\t" + t.getStatus());
-         }
+         c.verificador(i);
 
          for (var t : d.getRecuperados())
          {
@@ -41,10 +26,6 @@ public class Main {
          
          JanelaPrincipal janela = new JanelaPrincipal();
          janela.iniciaJanelaPrincipal();
-
-         arqs.salvaArquivoConfirmados();
-         arqs.salvaArquivoMortos();
-         arqs.salvaArquivoRecuperados();
 
 	}
 
