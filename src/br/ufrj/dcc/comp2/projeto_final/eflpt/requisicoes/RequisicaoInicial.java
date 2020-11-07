@@ -94,10 +94,19 @@ public class RequisicaoInicial
 	               .version(Version.HTTP_2)
 	               .followRedirects(Redirect.ALWAYS)
 	               .build();
+       
 	
-       HttpRequest requisicao = HttpRequest.newBuilder()
+       HttpRequest requisicao;
+       
+       if (paisAtual.getSlug().intern() == "united-states")
+       
+    	   requisicao = HttpRequest.newBuilder()
 	                    .uri(URI.create("https://api.covid19api.com/live/country/" + paisAtual.getSlug() + "/status/confirmed"))
 	                    .build();
+       else
+    	   requisicao = HttpRequest.newBuilder()
+           .uri(URI.create("https://api.covid19api.com/country/" + paisAtual.getSlug() + "/status/confirmed"))
+           .build();
 		   
 	   try 
 	   {
@@ -112,8 +121,8 @@ public class RequisicaoInicial
 			    {
 			        JSONArray casosPais = (JSONArray) new JSONParser().parse(resposta.body());
 			        
-			        Iterator<JSONArray> iterador = casosPais.iterator();
-			        
+				    Iterator<JSONArray> iterador = casosPais.iterator();
+				        
 			        if (iterador.hasNext())
 			        {
 				        Object linha = iterador.next();
@@ -121,9 +130,15 @@ public class RequisicaoInicial
 				        codigo = (String)	((JSONObject) linha).get("CountryCode");
 				        latitude = Float.parseFloat((String)	((JSONObject) linha).get("Lat"));
 				        longitude = Float.parseFloat((String)	((JSONObject) linha).get("Lon"));
-				        paisAtual.setaInfo(codigo, latitude, longitude);				        
+				        paisAtual.setaInfo(codigo, latitude, longitude);
+				        System.out.println(paisAtual.getNome());
 			        }
-			    } 
+			    }
+			    
+			    catch (ClassCastException d)
+			    {
+			    	
+			    }
 				
 			    catch (ParseException e) {
 				
@@ -135,13 +150,14 @@ public class RequisicaoInicial
 		    }
 		    else
 		    	System.out.println(codStatus);
+		    	// Imprimir janela de erro com código de status e encerrar o programa.
 			
 		} 
 			
 		catch (IOException e) {
 			
 		    System.err.println("Problema com a conexão");
-			
+		    // Imprimir janela de erro com código de status e encerrar o programa.
 		    e.printStackTrace();
 			
 		} 
@@ -149,7 +165,7 @@ public class RequisicaoInicial
 		catch (InterruptedException e) {
 			
 		    System.err.println("Requisição interrompida");
-			
+		    // Imprimir janela de erro com código de status e encerrar o programa.
 		    e.printStackTrace();
 			
 		}
@@ -237,7 +253,7 @@ public class RequisicaoInicial
 					        	linha = iterador.next();
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-					        	tipoDados.add(new Medicao(paisAtual, momento, (int) casos, status));
+					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
 					        	System.out.println(paisAtual.getNome() + "\t" + casos);
 					        	
 					        }
@@ -247,20 +263,21 @@ public class RequisicaoInicial
 				    catch (ParseException e) {
 					
 				        System.err.println("Resposta inválida");
-					
+				        // Imprimir janela de erro com código de status e encerrar o programa.
 				        e.printStackTrace();
 					
 				    }
 			    }
 			    else
 			    	System.out.println(codStatus);
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 				
 			} 
 				
 			catch (IOException e) {
 				
 			    System.err.println("Problema com a conexão");
-				
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 			    e.printStackTrace();
 				
 			} 
@@ -268,7 +285,7 @@ public class RequisicaoInicial
 			catch (InterruptedException e) {
 				
 			    System.err.println("Requisição interrompida");
-				
+			    // Imprimir janela de erro com código de status e encerrar o programa.
 			    e.printStackTrace();
 				
 			}

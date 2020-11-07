@@ -20,9 +20,8 @@ import java.util.Iterator;
 
 public class RequisicoesUpdates 
 {
-	public ArrayList<Medicao> realizaOperacoesAtualizacao(String tipo, String slug, String ultimaData, Dados d, StatusCaso status, Pais pais)
+	public void realizaOperacoesAtualizacao(String tipo, String slug, String ultimaData, Dados d, StatusCaso status, Pais pais)
 	{		
-	   ArrayList<Medicao> resultados = new ArrayList<Medicao>();
 	   ArrayList<Medicao> tipoDados;
 	   
 	   if (status == StatusCaso.CONFIRMADOS)
@@ -64,16 +63,14 @@ public class RequisicoesUpdates
 			        
 			        Iterator<JSONArray> iterador = casosPeriodo.iterator();
 			        
-			        if (iterador.hasNext())
+			        while (iterador.hasNext())
 			        {
 			        	linha = iterador.next();
 			        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 			        	
-			        	if (casos != 0)
-			        		tipoDados.add(new Medicao(pais, momento, (int) casos, status));
-			        	System.out.println("Atualização:" + pais.getNome() + "\t" + casos);    	
-			        
+			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
+			        	System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
 				        
 			        }
 			    } 
@@ -83,7 +80,6 @@ public class RequisicoesUpdates
 			        System.err.println("Resposta inválida");
 				
 			        e.printStackTrace();
-			        return null;
 				
 			    }
 		    }
@@ -97,7 +93,6 @@ public class RequisicoesUpdates
 		    System.err.println("Problema com a conexão");
 			
 		    e.printStackTrace();
-		    return null;
 			
 		} 
 			
@@ -106,11 +101,8 @@ public class RequisicoesUpdates
 		    System.err.println("Requisição interrompida");
 			
 		    e.printStackTrace();
-		    return null;
 			
 		}
-	   
-	   return resultados;
 
 	}
 
