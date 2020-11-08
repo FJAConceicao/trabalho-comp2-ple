@@ -28,6 +28,8 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
+
 
 public class JanelaPrincipal 
 {
@@ -52,6 +54,23 @@ public class JanelaPrincipal
 		
 		janelaPrincipal.setSize(800, 600);
 		janelaPrincipal.setVisible(true);
+		
+		janelaPrincipal.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e) 
+			{
+				ArquivoBase arqs = new ArquivoBase();
+				
+				arqs.salvaArquivoConfirmados();
+				arqs.salvaArquivoMortos();
+				arqs.salvaArquivoRecuperados();
+				
+				janelaPrincipal.setEnabled(true);
+			}
+			
+			
+		});
 	}
 	
 	public void adicionaBotoes(JPanel painel, JFrame janelaPrincipal)
@@ -133,6 +152,7 @@ public class JanelaPrincipal
 	}
 	
 	
+	@SuppressWarnings("serial")
 	public void abreJanelaRecebePeriodo(JFrame janelaPrincipal, Integer raio)
 	{
 		janelaPrincipal.setEnabled(false);
@@ -222,6 +242,7 @@ public class JanelaPrincipal
 		});		
 	}	
 	
+	@SuppressWarnings("serial")
 	public void abreJanelaRecebeRaio(JFrame janelaPrincipal)
 	{
 		janelaPrincipal.setEnabled(false);

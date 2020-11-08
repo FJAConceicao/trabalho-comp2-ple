@@ -17,9 +17,19 @@ public class Pais
 		this.longitude = longitude;
 	}
 	
-	public Pais()
+	public Pais(Pais pais)
 	{
-		
+		this.nome = pais.getNome();
+		this.codigo = pais.getCodigo();
+		this.slug = pais.getSlug();
+		this.latitude = pais.getLatitude();
+		this.longitude = pais.getLongitude();
+	}
+	
+	public Pais(String nome,String slug)
+	{
+		this.nome = nome;
+		this.slug = slug;
 	}
 	
 	public String getNome()
@@ -45,6 +55,13 @@ public class Pais
 	public float getLongitude()
 	{
 		return longitude;
+	}
+
+	public void setaInfo(String codigo, float latitude, float longitude)
+	{
+		this.codigo = codigo;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 }
