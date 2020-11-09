@@ -1,11 +1,13 @@
+package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class JanelaCarregamentoMortos
 {	
-	JFrame janelaPrincipal = new JFrame("Dados COVID-19");
-	JLabel loading = new JLabel(new ImageIcon("loading.gif"));
-	Container regiaoPrincipal = janelaPrincipal.getContentPane();
+	private JFrame janelaPrincipal = new JFrame("Dados COVID-19");
+	private JLabel loading = new JLabel(new ImageIcon("loading.gif"));
+	private Container regiaoPrincipal = janelaPrincipal.getContentPane();
 
     public void refresh(int numeroPais)
     {
@@ -14,9 +16,9 @@ public class JanelaCarregamentoMortos
     	janelaPrincipal.getContentPane().repaint();
     	
     	StringBuilder sb = new StringBuilder();
-    	sb.append("Carregando o número de mortos do ");
+    	sb.append("Carregando o nÃºmero de mortos do ");
     	sb.append(numeroPais);
-    	sb.append("º país...");
+    	sb.append("Âº paÃ­s...");
     	JLabel msg = new JLabel(sb.toString());
     	
     	janelaPrincipal.setSize(600, 150);
@@ -45,7 +47,7 @@ public class JanelaCarregamentoMortos
     	janelaPrincipal.getContentPane().revalidate();
     	janelaPrincipal.getContentPane().repaint();
     	
-    	JLabel msgConcluido = new JLabel("Carregamento concluído.");  
+    	JLabel msgConcluido = new JLabel("Carregamento concluÃ­do.");  
     	
     	janelaPrincipal.setSize(600, 150);
 		janelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -13,6 +15,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -36,6 +40,18 @@ public class JanelaRankingNumeroCrescimento {
 	{
 		janelaRanking = new JFrame("Ranking Internacional por período de tempo");
 		regiaoPrincipal = janelaRanking.getContentPane();
+		
+		JMenuBar barraExportar = new JMenuBar();
+		JMenuItem exportar = new JMenuItem("Exportar...");
+		barraExportar.add(exportar);
+		
+		exportar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e)
+			{
+				Coletor.recebeLocalArquivo();
+			}
+		});
 		
 		JLabel labelInicial = new JLabel(tipoRanking + " de casos/recuperados/mortos");
 		

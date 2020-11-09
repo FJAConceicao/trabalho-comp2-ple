@@ -78,11 +78,25 @@ public class ArquivoBase
 		{
 			@SuppressWarnings({ "unused", "resource" })
 			FileReader fr = new FileReader(f);
+			BufferedReader leitor = new BufferedReader(fr);
+			int contador = 0;
+
+
+			while (leitor.readLine() != null)
+			{
+				contador++;
+			}
+			
+			if (contador <= 1)
+				return false;
+			
+			
 		}
-		catch (FileNotFoundException e) 
+		catch (IOException d)
 		{
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -101,11 +115,8 @@ public class ArquivoBase
 		String local = ".." + separador + "database" + separador + nomeArquivo;
 		Controle atualizador = new Controle();
 		
-		if (!verificaExistenciaArquivo(local)) {
-			MensagensDeErro.mostraMensagemDeErro("Arquivo " + nomeArquivo + " não encontrado.",
-												 "Abertura de arquivo");
+		if (!verificaExistenciaArquivo(local))
 			return false;
-		}
 		
 		String aux = "";
 		

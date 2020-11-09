@@ -21,6 +21,28 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Coletor
 {
+	/**
+	 * Modularização do switch do método converteData
+	 * @param numero o identificador do ranking a ser chamado
+	 * @param inicio a data ínicio
+	 * @param fim a data fim
+	 */
+	
+	public static void geradorRanking(int numero, LocalDate inicio, LocalDate fim)
+	{
+		switch(numero)
+		{
+			case 1:
+				// Chamar o ranking do primeiro botão
+				break;
+			case 2:
+				// Chamar o ranking crescimento do segundo botão
+				break;
+			case 3:
+				// Chamar o ranking de mortalidade do terceiro botão
+				break;
+		}
+	}
 	
 	/**
 	 * Verifica se as datas para receber um período são corretas.
@@ -65,10 +87,11 @@ public class Coletor
 	 * Recebe as datas em formato de texto para conversão em LocalDate
 	 * @param primeiraData a data início
 	 * @param segundaData a data fim
+	 * @param ranking o ranking que vai ser gerado(na ordem dos botões: 1, 2, 3)
 	 * @param janela a janela principal do programa
 	 */
 	
-	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela)
+	public static void converteData(JTextField primeiraData, JTextField segundaData, int ranking, JDialog janela)
 	{
 		LocalDate inicio;
 		LocalDate fim;
@@ -90,7 +113,7 @@ public class Coletor
 		if (verificaDatas(inicio, fim, primeiraData))
 		{
 			janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-			// Chamar o método para criar o ranking.
+			Coletor.geradorRanking(ranking, inicio, fim);
 		}
 	}
 	
@@ -129,6 +152,7 @@ public class Coletor
 			// Chamar o método para criar o ranking dos locais mais próximos.
 		}
 	}
+	
 	
 	/**
 	 * Verifica se o raio está entre 0 e 6371
