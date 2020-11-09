@@ -12,11 +12,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+/**
+ * Essa classe implementa a recepção e o controle de dados oriundos da GUI.
+ * Esses dados são utilizados na criação dos rankings
+ * @author Thiago Castro
+ */
+
+
 public class Coletor
 {
+	
+	/**
+	 * Verifica se as datas para receber um período são corretas.
+	 * @param data1 a data início do período
+	 * @param data2 a data fim do período
+	 * @param campo o campo de texto para ser recuperada a janela original
+	 * @return true se elas são corretas, false c.c.
+	 */
 	public static boolean verificaDatas(LocalDate data1, LocalDate data2, JTextField campo)
 	{
-		if (data1.isAfter(data2))
+		if (data1.isAfter(data2)) // Verifica se a data início vem antes da data fim
 		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
 												 "A primeira data vem depois da segunda data.",
@@ -25,7 +40,7 @@ public class Coletor
 			return false;
 		}
 		
-		if (data1.isAfter(LocalDate.now()) || data2.isAfter(LocalDate.now()))
+		if (data1.isAfter(LocalDate.now()) || data2.isAfter(LocalDate.now())) // Verifica se uma das duas datas está no futuro
 		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
 					 							 "Uma das datas está no futuro.",
@@ -34,7 +49,7 @@ public class Coletor
 			return false;
 		}
 		
-		if (data1.isBefore(LocalDate.of(2019, 11, 17)))
+		if (data1.isBefore(LocalDate.of(2019, 11, 17))) // Verifica se a primeira data vem antes do primeiro caso de COVID no mundo
 		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
 												 "A primeira data vem antes do primeiro caso de COVID-19 no mundo",
@@ -45,6 +60,13 @@ public class Coletor
 		
 		return true;
 	}
+	
+	/**
+	 * Recebe as datas em formato de texto para conversão em LocalDate
+	 * @param primeiraData a data início
+	 * @param segundaData a data fim
+	 * @param janela a janela principal do programa
+	 */
 	
 	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela)
 	{
@@ -72,6 +94,15 @@ public class Coletor
 		}
 	}
 	
+	/**
+	 * Recebe as datas em formato de texto para conversão em LocalDate
+	 * e o raio
+	 * @param primeiraData a data início
+	 * @param segundaData a data fim
+	 * @param janela a janela principal do programa
+	 * @param raio o valor do raio
+	 */
+	
 	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela, int raio)
 	{
 		LocalDate inicio;
@@ -98,6 +129,13 @@ public class Coletor
 			// Chamar o método para criar o ranking dos locais mais próximos.
 		}
 	}
+	
+	/**
+	 * Verifica se o raio está entre 0 e 6371
+	 * @param raio o raio fornecido
+	 * @param janela a janela principal
+	 * @return true se está, false c.c.
+	 */
 	
 	public static boolean verificaRaio(JTextField raio, JDialog janela)
 	{
@@ -131,6 +169,11 @@ public class Coletor
 		
 		return true;
 	}
+	
+	/**
+	 * Recebe o local para o salvamento do arquivo de ranking.
+	 * Esse método abre uma janela padrão de salvar como do sistema.
+	 */
 
 	public static void recebeLocalArquivo()
 	{

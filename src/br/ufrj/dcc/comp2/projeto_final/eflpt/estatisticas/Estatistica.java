@@ -6,16 +6,38 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Essa classe é uma abstração de uma estatística no programa.
+ * É implementada conforme o status de um caso.
+ * @author Thiago Castro
+ */
+
 public abstract class Estatistica 
 {
 	private String nome;
 	private List<Medicao> observacoes;
+	
+	/**
+	 * Inclui uma medição na lista de observações
+	 * @param nome o nome da medição
+	 * @param observacao a medição a ser adicionada
+	 */
 	
 	public void inclui(String nome, Medicao observacao)
 	{
 		this.nome = nome;
 		observacoes = new ArrayList<Medicao>();
 		observacoes.add(observacao);
+	}
+	
+	/**
+	 * Retorna o nome desta medição
+	 * @return
+	 */
+	
+	public String getNome()
+	{
+		return nome;
 	}
 	
 	public abstract LocalDate dataInicio();
