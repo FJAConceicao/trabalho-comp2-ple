@@ -1,11 +1,8 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,27 +11,34 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
 
+/**
+ * Essa classe implementa a janela principal do programa.
+ * Ela fornece os botões para solicitação dos rankings.
+ * @author Thiago Castro
+ *
+ */
+
 
 public class JanelaPrincipal 
 {
 	private JFrame janelaPrincipal = new JFrame("Dados COVID-19");
 	private JLabel msgBemVindo = new JLabel("Criador de rankings internacionais de COVID-19");
+	
+	/**
+	 * Inicia a janela principal, contendo os botões para criação dos rankings.
+	 */
 	
 	public void iniciaJanelaPrincipal()
 	{
@@ -73,13 +77,18 @@ public class JanelaPrincipal
 		});
 	}
 	
+	/**
+	 * Adiciona os botões na janela principal
+	 * @param painel o painel que contém os botões
+	 * @param janelaPrincipal a janela principal
+	 */
+	
 	public void adicionaBotoes(JPanel painel, JFrame janelaPrincipal)
 	{
 		JButton rankingPrincipal = new JButton("Ranking internacional casos/recuperados/mortos por período");
 		JButton rankingCrescimento = new JButton("Ranking internacional de crescimento de casos/recuperados/mortos por período");
 		JButton rankingMortalidade = new JButton("Ranking internacional de mortalidade por período");
 		JButton locaisProximosMaior = new JButton("Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)");
-		JButton exportarRankings = new JButton("Exportar rankings para arquivo CSV/TSV");
 		
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
@@ -91,15 +100,11 @@ public class JanelaPrincipal
 		rankingMortalidade.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		locaisProximosMaior.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		
-		exportarRankings.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		geraEventoReceptorPeriodo(rankingPrincipal);
 		geraEventoReceptorPeriodo(rankingCrescimento);
 		geraEventoReceptorPeriodo(rankingMortalidade);
 		geraEventoReceptorRaio(locaisProximosMaior);
-		geraEventoReceptorLocalArquivo(exportarRankings);
 		
 
 		painel.add(rankingPrincipal);
@@ -110,10 +115,14 @@ public class JanelaPrincipal
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(locaisProximosMaior);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		painel.add(exportarRankings);
-		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		
 	}
+	
+	/**
+	 * Adiciona ação aos botões que geram ranking que
+	 * necessitam apenas de um intervalo de data
+	 * @param botao o botão que abre a janela de receber data
+	 */
 	
 	public void geraEventoReceptorPeriodo(JButton botao)
 	{
@@ -127,6 +136,12 @@ public class JanelaPrincipal
 		});
 	}
 	
+	/**
+	 * Adiciona ação ao botão que gera o ranking de local
+	 * mais próximo ao local com maior taxa de crescimento
+	 * @param botao o botão que abre a janela de receber raio
+	 */
+	
 	public void geraEventoReceptorRaio(JButton botao)
 	{
 		botao.addActionListener(new ActionListener()
@@ -139,6 +154,11 @@ public class JanelaPrincipal
 		});
 	}
 	
+	/**
+	 * Adiciona ação de abrir a janela de salvar como para salvar o ranking gerado
+	 * @param botao o botão que abrirá a janela de salvamento
+	 */
+	
 	public void geraEventoReceptorLocalArquivo(JButton botao)
 	{
 		botao.addActionListener(new ActionListener()
@@ -150,6 +170,12 @@ public class JanelaPrincipal
 			}			
 		});
 	}
+	
+	/**
+	 * Abre o diálogo que recebe as duas datas usadas para gerar um ranking
+	 * @param janelaPrincipal a janela principal
+	 * @param raio o raio caso seja o ranking de local mais próximo
+	 */
 	
 	
 	@SuppressWarnings("serial")
@@ -240,7 +266,12 @@ public class JanelaPrincipal
 				janelaPrincipal.setEnabled(true);
 			}			
 		});		
-	}	
+	}
+	
+	/**
+	 * Abre o diálogo para receber o raio utilizado no ranking de local mais próximo
+	 * @param janelaPrincipal a janela principal do programa
+	 */
 	
 	@SuppressWarnings("serial")
 	public void abreJanelaRecebeRaio(JFrame janelaPrincipal)
@@ -307,6 +338,11 @@ public class JanelaPrincipal
 			}			
 		});		
 	}
+	
+	/**
+	 * Abre a janela de salvar como para receber o local de salvamento
+	 * @param janelaPrincipal a janela principal do programa
+	 */
 	
 	public void abreJanelaRecebeLocaisArquivos(JFrame janelaPrincipal)
 	{

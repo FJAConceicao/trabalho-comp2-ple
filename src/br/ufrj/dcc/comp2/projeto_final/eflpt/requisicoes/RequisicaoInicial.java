@@ -18,8 +18,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Essa classe implementa a requisição dos dados base do programa.
+ * Ela recebe todos os locais do mundo registrados na API, além dos dados respectivos
+ * a esses locais.
+ * É solicitada caso não existam arquivos de base de dados ou algum esteja corrompido.
+ * Caso ocorra algum erro, o programa encerra.
+ * @author Thiago Castro
+ * @author Pedro Henrique
+ */
+
 public class RequisicaoInicial
 {
+	/**
+	 * Solicita os países na API 
+	 * @param d instância de dados para receber os dados
+	 */
+	
    public void requisitarPaises(Dados d)
    {
 	   HttpClient cliente = HttpClient.newBuilder()
@@ -33,6 +48,7 @@ public class RequisicaoInicial
                     .uri(URI.create("https://api.covid19api.com/countries"))
                     .build();
 	   Pais paisAtual;
+	   
 	   try 
 	   {
 			
@@ -51,7 +67,7 @@ public class RequisicaoInicial
 			            String nomePais = (String)	((JSONObject) pais).get("Country");
 			            String slugPais = (String)	((JSONObject) pais).get("Slug");
 			            paisAtual = new Pais(nomePais, slugPais);
-						requisitarInformacoesPais(paisAtual);
+						requisitarInformacoesPais(paisAtual); // Para preencher o país
 			            d.getPaises().add(new Pais(paisAtual));
 			        }				
 			    } 
@@ -83,6 +99,11 @@ public class RequisicaoInicial
 			
 		}	   
    }
+   
+   /**
+    * Recebe código, latitude e longitude do país passado como argumento
+    * @param paisAtual o país a receber os dados
+    */
    
    public void requisitarInformacoesPais(Pais paisAtual)
    {
@@ -131,13 +152,12 @@ public class RequisicaoInicial
 				        latitude = Float.parseFloat((String)	((JSONObject) linha).get("Lat"));
 				        longitude = Float.parseFloat((String)	((JSONObject) linha).get("Lon"));
 				        paisAtual.setaInfo(codigo, latitude, longitude);
-				        System.out.println(paisAtual.getNome());
 			        }
 			    }
 			    
 			    catch (ClassCastException d)
 			    {
-			    	
+			    	// Ignorar o país
 			    }
 				
 			    catch (ParseException e) {
@@ -171,6 +191,11 @@ public class RequisicaoInicial
 		}
 
    }
+   
+   /**
+    * Solicita os casos confirmados usando o método realizaOperacoesTipo
+    * @param d a instância de dados a receber as informações
+    */
 
    
    public void requisitarConfirmados(Dados d)
@@ -179,11 +204,21 @@ public class RequisicaoInicial
 	   realizaOperacoesTipo("confirmed", d, confirmado);
    }
    
+   /**
+    * Solicita as medições de mortes usando o método realizaOperacoesTipo
+    * @param d a instância de dados a receber as informações
+    */
+   
    public void requisitarMortes(Dados d)
    {
 	   StatusCaso mortes = StatusCaso.MORTOS;
 	   realizaOperacoesTipo("deaths", d, mortes);
    }
+   
+   /**
+    * Solicita os casos recuperados usando o método realizaOperacoesTipo
+    * @param d a instância de dados a receber as informações
+    */
    
    public void requisitarRecuperados(Dados d)
    {
@@ -191,6 +226,15 @@ public class RequisicaoInicial
 	   StatusCaso recuperados = StatusCaso.RECUPERADOS;
 	   realizaOperacoesTipo("recovered", d, recuperados);
    }
+   
+   /**
+    * Realiza as requisições na API para os países recebidos no começo.
+    * Solicita dados de casos confirmados, recuperados ou de mortes.
+    * Recebe esses números, além da data da medição e do status
+    * @param tipo o tipo de caso a ser solicitado na URL
+    * @param d a instância de dados a receber as informações
+    * @param status o tipo de caso para referência do ArrayList na classe Dados
+    */
    
    public void realizaOperacoesTipo(String tipo, Dados d, StatusCaso status)
    {
@@ -254,7 +298,6 @@ public class RequisicaoInicial
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
-					        	System.out.println(paisAtual.getNome() + "\t" + casos);
 					        	
 					        }
 				        }
