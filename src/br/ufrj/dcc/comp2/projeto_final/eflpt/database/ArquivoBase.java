@@ -18,6 +18,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 public class ArquivoBase 
 {
@@ -40,7 +41,6 @@ public class ArquivoBase
 		
 		catch (SecurityException e)
 		{
-			// Imprimir erro na tela
 			return false;
 		}
 		return true;
@@ -66,8 +66,11 @@ public class ArquivoBase
 		String local = ".." + separador + "database" + separador + nomeArquivo;
 		Controle atualizador = new Controle();
 		
-		if (!verificaExistenciaArquivo(local))
+		if (!verificaExistenciaArquivo(local)) {
+			MensagensDeErro.mostraMensagemDeErro("Arquivo " + nomeArquivo + " não encontrado.",
+												 "Abertura de arquivo");
 			return false;
+		}
 		
 		String aux = "";
 		
@@ -179,8 +182,12 @@ public class ArquivoBase
 	{
 		String local = ".." + separador + "database" + separador + nomeArquivo;
 		
-		if (!verificaExistenciaPastaDataBase()) // Imprimir erro ao salvar banco de dados
+		if (!verificaExistenciaPastaDataBase()) {
+			// Imprimir erro ao salvar banco de dados
+			MensagensDeErro.mostraMensagemDeErro("Banco de dados não encontrado.",
+												 "Abertura do banco de dados");
 			return false;
+		}
 		
 		String nome_pais;
 		String codigo;
@@ -235,6 +242,8 @@ public class ArquivoBase
 		}
 		catch (FileNotFoundException e)
 		{
+			MensagensDeErro.mostraMensagemDeErro("Arquivo " + nomeArquivo + " não encontrado.",
+												 "Abertura de arquivo");
 			return false;			
 		}	
 		

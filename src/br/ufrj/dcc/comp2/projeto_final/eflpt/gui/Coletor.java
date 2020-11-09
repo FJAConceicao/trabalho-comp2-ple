@@ -1,6 +1,5 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
 
-import java.awt.Container;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.time.LocalDate;
@@ -9,13 +8,9 @@ import java.time.format.DateTimeParseException;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-
 
 public class Coletor
 {
@@ -23,33 +18,33 @@ public class Coletor
 	{
 		if (data1.isAfter(data2))
 		{
-			JOptionPane.showMessageDialog(campo.getParent(),
-					"A primeira data vem depois da segunda data.", "Erro ao receber data", JOptionPane.ERROR_MESSAGE);
+			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
+												 "A primeira data vem depois da segunda data.",
+												 "Erro ao receber data");
 			
 			return false;
 		}
 		
 		if (data1.isAfter(LocalDate.now()) || data2.isAfter(LocalDate.now()))
 		{
-			JOptionPane.showMessageDialog(campo.getParent(),
-					"Uma das datas está no futuro", "Erro ao receber data", JOptionPane.ERROR_MESSAGE);
+			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
+					 							 "Uma das datas está no futuro.",
+					 							 "Erro ao receber data");
 			
 			return false;
 		}
 		
 		if (data1.isBefore(LocalDate.of(2019, 11, 17)))
 		{
-			JOptionPane.showMessageDialog(campo.getParent(),
-					"A primeira data vem antes do primeiro caso de COVID-19 no mundo",
-					"Erro ao receber data", JOptionPane.ERROR_MESSAGE);
-			
+			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
+												 "A primeira data vem antes do primeiro caso de COVID-19 no mundo",
+												 "Erro ao receber data");
+
 			return false;
 		}
 		
 		return true;
 	}
-	
-	
 	
 	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela)
 	{
@@ -63,10 +58,11 @@ public class Coletor
 		}
 		catch (DateTimeParseException e)
 		{
-			JOptionPane.showMessageDialog(primeiraData.getParent(),
-					"Alguma data é inválida.", "Erro ao receber data", JOptionPane.ERROR_MESSAGE);
-			return;
+			MensagensDeErro.mostraMensagemDeErro(primeiraData.getParent(),
+												 "Alguma data é invalida.",
+												 "Erro ao receber data");
 			
+			return;
 		}
 		
 		if (verificaDatas(inicio, fim, primeiraData))
@@ -88,8 +84,10 @@ public class Coletor
 		}
 		catch (DateTimeParseException e)
 		{
-			JOptionPane.showMessageDialog(primeiraData.getParent(),
-					"Alguma data é inválida.", "Erro ao receber data", JOptionPane.ERROR_MESSAGE);
+			MensagensDeErro.mostraMensagemDeErro(primeiraData.getParent(),
+												 "Alguma data é invalida.",
+												 "Erro ao receber data");
+
 			return;
 			
 		}
@@ -112,15 +110,20 @@ public class Coletor
 		
 		catch (NumberFormatException e)
 		{
-			JOptionPane.showMessageDialog(raio.getParent(),
-					"Digite um número válido", "Erro ao receber raio", JOptionPane.ERROR_MESSAGE);
+			MensagensDeErro.mostraMensagemDeErro(raio.getParent(),
+					 							 "Digite um número válido",
+					 							 "Erro ao receber raio");
+
 			return false;
 		}
 		
 		if (valor > 6371 || valor <= 0)
 		{
 			JOptionPane.showMessageDialog(raio.getParent(),
-					"Digite um número maior que 0 e menor que 6371.", "Erro ao receber raio", JOptionPane.WARNING_MESSAGE);
+										  "Digite um número maior que 0 e menor que 6371.",
+										  "Erro ao receber raio",
+										  JOptionPane.WARNING_MESSAGE);
+			
 			return false;
 		}
 		
@@ -128,8 +131,6 @@ public class Coletor
 		
 		return true;
 	}
-
-
 
 	public static void recebeLocalArquivo()
 	{
@@ -142,7 +143,6 @@ public class Coletor
 		verArqSistema.setFileFilter(filtroCsv);
 		verArqSistema.setFileFilter(filtroTsv);
 		int confirmar = verArqSistema.showSaveDialog(salvarArquivo);
-		String nomeArquivo;
 		
 		if (confirmar == JFileChooser.APPROVE_OPTION)
 		{
@@ -160,10 +160,10 @@ public class Coletor
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(verArqSistema.getParent(),
-						"Apenas arquivos .tsv e .csv são suportados", "Erro ao receber local arquivo", JOptionPane.ERROR_MESSAGE);
+				MensagensDeErro.mostraMensagemDeErro(verArqSistema.getParent(),
+													 "Apenas arquivos .tsv e .csv são suportados",
+													 "Erro ao receber local arquivo");
 			}
 		}
 	}
-
 }

@@ -1,11 +1,8 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,22 +11,17 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
-
 
 public class JanelaPrincipal 
 {
@@ -49,9 +41,7 @@ public class JanelaPrincipal
 		regiaoPrincipal.add(msgBemVindo);
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(painel);
-		
-		
-		
+				
 		janelaPrincipal.setSize(800, 600);
 		janelaPrincipal.setVisible(true);
 		
@@ -67,9 +57,7 @@ public class JanelaPrincipal
 				arqs.salvaArquivoRecuperados();
 				
 				janelaPrincipal.setEnabled(true);
-			}
-			
-			
+			}	
 		});
 	}
 	
@@ -84,15 +72,9 @@ public class JanelaPrincipal
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
 		rankingPrincipal.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		
 		rankingCrescimento.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		rankingMortalidade.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		locaisProximosMaior.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		
 		exportarRankings.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		geraEventoReceptorPeriodo(rankingPrincipal);
@@ -101,7 +83,6 @@ public class JanelaPrincipal
 		geraEventoReceptorRaio(locaisProximosMaior);
 		geraEventoReceptorLocalArquivo(exportarRankings);
 		
-
 		painel.add(rankingPrincipal);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(rankingCrescimento);
@@ -112,7 +93,6 @@ public class JanelaPrincipal
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(exportarRankings);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		
 	}
 	
 	public void geraEventoReceptorPeriodo(JButton botao)
@@ -151,7 +131,6 @@ public class JanelaPrincipal
 		});
 	}
 	
-	
 	@SuppressWarnings("serial")
 	public void abreJanelaRecebePeriodo(JFrame janelaPrincipal, Integer raio)
 	{
@@ -171,7 +150,6 @@ public class JanelaPrincipal
 		msgSegundaData.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton botaoOk = new JButton("OK");
 		
-
 		JTextField primeiraData = new JTextField();
 		primeiraData.setColumns(10);
 		primeiraData.setMaximumSize(new Dimension(200,50));
@@ -205,7 +183,6 @@ public class JanelaPrincipal
 			  }
 			
 		});
-		
 		
 		botaoOk.setAlignmentX(Component.CENTER_ALIGNMENT);
 		painel.add(msgPrimeiraData);
@@ -259,7 +236,6 @@ public class JanelaPrincipal
 		msgRaio.setAlignmentX(Component.CENTER_ALIGNMENT);
 		JButton botaoOk = new JButton("OK");
 		
-
 		JTextField raio = new JTextField();
 		raio.setColumns(5);
 		raio.setMaximumSize(new Dimension(200,50));
@@ -313,5 +289,4 @@ public class JanelaPrincipal
 		Coletor.recebeLocalArquivo();
 		
 	}
-
 }

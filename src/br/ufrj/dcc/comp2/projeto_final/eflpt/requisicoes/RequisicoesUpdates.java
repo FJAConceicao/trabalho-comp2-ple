@@ -9,6 +9,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 import java.io.IOException;
 import java.net.*;
@@ -70,40 +71,30 @@ public class RequisicoesUpdates
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 			        	
 			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
-			        	System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
+			        	//System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
 				        
 			        }
 			    } 
 				
 			    catch (ParseException e) {
-				
-			        System.err.println("Resposta inválida");
-				
-			        e.printStackTrace();
-				
+			    	//MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de atualização");
+			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida\nPaís: " + pais.getNome(),
+			    										 "Erro de atualização");
 			    }
 		    }
-		    else
-		    	System.out.println(codStatus);
-			
+		    else {
+		    	MensagensDeErro.mostraMensagemDeErro("Ocorreu um erro durante a requisição.\n"
+		    										  + "Código HTTP: " + codStatus,
+		    										  "Erro de atualização");
+		    }
 		} 
 			
 		catch (IOException e) {
-			
-		    System.err.println("Problema com a conexão");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Problema com a conexão", "Erro de atualização");
 		} 
 			
 		catch (InterruptedException e) {
-			
-		    System.err.println("Requisição interrompida");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Requisição interrompida", "Erro de atualização");
 		}
-
 	}
-
 }

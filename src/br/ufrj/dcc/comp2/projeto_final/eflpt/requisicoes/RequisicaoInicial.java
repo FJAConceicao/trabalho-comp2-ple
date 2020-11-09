@@ -9,6 +9,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 import java.io.IOException;
 import java.net.*;
@@ -57,30 +58,18 @@ public class RequisicaoInicial
 			    } 
 				
 			    catch (ParseException e) {
-				
-			        System.err.println("Resposta inválida");
-				
-			        e.printStackTrace();
-				
+			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de requisição");				
 			    }
 		    }
 			
 		} 
 			
 		catch (IOException e) {
-			
-		    System.err.println("Problema com a conexão");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Problema com a conexão", "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
-			
-		    System.err.println("Requisição interrompida");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Requisição interrompida", "Erro de requisição");
 		}	   
    }
    
@@ -108,12 +97,13 @@ public class RequisicaoInicial
            .uri(URI.create("https://api.covid19api.com/country/" + paisAtual.getSlug() + "/status/confirmed"))
            .build();
 		   
+       int codStatus = 0;
 	   try 
 	   {
 			
 		    HttpResponse<String> resposta = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
 			
-		    int codStatus = resposta.statusCode();
+		    codStatus = resposta.statusCode();
 		    
 		    if (codStatus >= 200 && codStatus < 300)
 		    {
@@ -141,35 +131,36 @@ public class RequisicaoInicial
 			    }
 				
 			    catch (ParseException e) {
-				
-			        System.err.println("Resposta inválida");
-				
-			        e.printStackTrace();
-				
+			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de requisição");
 			    }
 		    }
-		    else
-		    	System.out.println(codStatus);
+		    else {
+		    	
 		    	// Imprimir janela de erro com código de status e encerrar o programa.
-			
-		} 
-			
+		    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+						  								  "", //Inserir mensagem de erro aqui
+						  								  codStatus,
+						  								  "Erro de requisição");
+		    }
+		}
+	   
 		catch (IOException e) {
 			
-		    System.err.println("Problema com a conexão");
-		    // Imprimir janela de erro com código de status e encerrar o programa.
-		    e.printStackTrace();
-			
+			// Imprimir janela de erro com código de status e encerrar o programa.
+			MensagensDeErro.mostraErroEncerraPrograma(null, 
+													  "Problema com a conexão",
+													  codStatus,
+													  "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
 			
-		    System.err.println("Requisição interrompida");
-		    // Imprimir janela de erro com código de status e encerrar o programa.
-		    e.printStackTrace();
-			
+			// Imprimir janela de erro com código de status e encerrar o programa.
+			MensagensDeErro.mostraErroEncerraPrograma(null, 
+					  								  "Requisição interrompida",
+					  								  codStatus,
+					  								  "Erro de requisição");
 		}
-
    }
 
    
@@ -222,12 +213,13 @@ public class RequisicaoInicial
 	                    .uri(URI.create("https://api.covid19api.com/total/country/" + paisAtual.getSlug() + "/status/" + tipo))
 	                    .build();
 		   
+		   int codStatus = 0;
 		   try 
 		   {
 				
 			    HttpResponse<String> resposta = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
 				
-			    int codStatus = resposta.statusCode();
+			    codStatus = resposta.statusCode();
 			    
 			    if (codStatus >= 200 && codStatus < 300)
 			    {
@@ -261,35 +253,44 @@ public class RequisicaoInicial
 				    } 
 					
 				    catch (ParseException e) {
-					
-				        System.err.println("Resposta inválida");
-				        // Imprimir janela de erro com código de status e encerrar o programa.
-				        e.printStackTrace();
-					
+				    	
+				    	// Imprimir janela de erro com código de status e encerrar o programa.
+				    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+				    											  "Resposta inválida",
+				    											  codStatus,
+				    											  "Erro de requisição");
+				    	
 				    }
 			    }
-			    else
-			    	System.out.println(codStatus);
-			    // Imprimir janela de erro com código de status e encerrar o programa.
-				
+			    else {
+			    	
+			    	// Imprimir janela de erro com código de status e encerrar o programa.
+			    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+							  								  "", //Inserir mensagem de erro aqui
+							  								  codStatus,
+							  								  "Erro de requisição");
+			    	
+			    }
 			} 
 				
 			catch (IOException e) {
 				
-			    System.err.println("Problema com a conexão");
-			    // Imprimir janela de erro com código de status e encerrar o programa.
-			    e.printStackTrace();
-				
+				// Imprimir janela de erro com código de status e encerrar o programa.
+				MensagensDeErro.mostraErroEncerraPrograma(null, 
+														  "Problema com a conexão",
+														  codStatus,
+														  "Erro de requisição");
 			} 
 				
 			catch (InterruptedException e) {
 				
-			    System.err.println("Requisição interrompida");
-			    // Imprimir janela de erro com código de status e encerrar o programa.
-			    e.printStackTrace();
+				// Imprimir janela de erro com código de status e encerrar o programa.
+				MensagensDeErro.mostraErroEncerraPrograma(null, 
+														  "Requisição interrompida",
+														  codStatus,
+														  "Erro de requisição");
 				
 			}
 	   }
    }
 }
-
