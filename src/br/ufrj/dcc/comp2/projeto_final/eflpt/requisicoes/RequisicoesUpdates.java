@@ -9,6 +9,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 import java.io.IOException;
 import java.net.*;
@@ -18,8 +19,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Essa classe realiza as requisições para as atualizações
+ * @author Thiago Castro
+ * @author Pedro Henrique
+ */
+
 public class RequisicoesUpdates 
 {
+	/**
+	 * Realiza as requisições de atualização da última data registrada na medição
+	 * até o dia atual do computador
+	 * @param tipo o tipo de caso para ser fornecido na URL
+	 * @param slug o slug do país a ser atualizado
+	 * @param ultimaData a última data da medição acrescida de um dia
+	 * @param d a instância de dados para receber as atualizações
+	 * @param status o status do caso
+	 * @param pais o país a ser atualizado
+	 */
+	
 	public void realizaOperacoesAtualizacao(String tipo, String slug, String ultimaData, Dados d, StatusCaso status, Pais pais)
 	{		
 	   ArrayList<Medicao> tipoDados;
@@ -68,42 +86,30 @@ public class RequisicoesUpdates
 			        	linha = iterador.next();
 			        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-			        	
+			        
+				    
 			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
-			        	System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
-				        
 			        }
 			    } 
 				
 			    catch (ParseException e) {
-				
-			        System.err.println("Resposta inválida");
-				
-			        e.printStackTrace();
-				
+			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida\nPaís: " + pais.getNome(),
+			    										 "Erro de atualização");
 			    }
 		    }
-		    else
-		    	System.out.println(codStatus);
-			
+		    else {
+		    	MensagensDeErro.mostraMensagemDeErro("Ocorreu um erro durante a requisição.\n"
+		    										  + "Código HTTP: " + codStatus,
+		    										  "Erro de atualização");
+		    }
 		} 
 			
 		catch (IOException e) {
-			
-		    System.err.println("Problema com a conexão");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Problema com a conexão", "Erro de atualização");
 		} 
 			
 		catch (InterruptedException e) {
-			
-		    System.err.println("Requisição interrompida");
-			
-		    e.printStackTrace();
-			
+			MensagensDeErro.mostraMensagemDeErro("Requisição interrompida", "Erro de atualização");
 		}
-
 	}
-
 }
