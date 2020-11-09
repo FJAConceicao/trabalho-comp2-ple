@@ -24,13 +24,20 @@ import javax.swing.text.PlainDocument;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> d1652ad3449f9e8ac5412d356532a84f28786503
 /**
  * Essa classe implementa a janela principal do programa.
  * Ela fornece os botões para solicitação dos rankings.
  * @author Thiago Castro
  *
  */
+<<<<<<< HEAD
+=======
+
+>>>>>>> d1652ad3449f9e8ac5412d356532a84f28786503
 
 
 >>>>>>> d1652ad... Javadoc do programa criado
@@ -96,9 +103,12 @@ public class JanelaPrincipal
 		rankingMortalidade.setAlignmentX(Component.CENTER_ALIGNMENT);
 		locaisProximosMaior.setAlignmentX(Component.CENTER_ALIGNMENT);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		exportarRankings.setAlignmentX(Component.CENTER_ALIGNMENT);
 =======
 >>>>>>> d1652ad... Javadoc do programa criado
+=======
+>>>>>>> d1652ad3449f9e8ac5412d356532a84f28786503
 		
 		geraEventoReceptorPeriodo(rankingPrincipal);
 		geraEventoReceptorPeriodo(rankingCrescimento);
@@ -114,9 +124,12 @@ public class JanelaPrincipal
 		painel.add(locaisProximosMaior);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 <<<<<<< HEAD
+<<<<<<< HEAD
 		painel.add(exportarRankings);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 =======
+=======
+>>>>>>> d1652ad3449f9e8ac5412d356532a84f28786503
 		
 >>>>>>> d1652ad... Javadoc do programa criado
 	}
@@ -175,7 +188,10 @@ public class JanelaPrincipal
 	}
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> d1652ad3449f9e8ac5412d356532a84f28786503
 	/**
 	 * Abre o diálogo que recebe as duas datas usadas para gerar um ranking
 	 * @param janelaPrincipal a janela principal

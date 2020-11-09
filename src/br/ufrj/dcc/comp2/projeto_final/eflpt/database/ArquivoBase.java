@@ -27,6 +27,13 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
  * @author Thiago Castro
  */
 
+/**
+ * Essa classe controla os arquivos do banco de dados que conectam o cache não volátil com o volátil.
+ * Os dados ficam na raiz do programa na pasta database.
+ * Ao salvar, se a pasta database não existir, ela é criada
+ * @author Thiago Castro
+ */
+
 public class ArquivoBase 
 {
 	private final String separador = File.separator;

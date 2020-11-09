@@ -86,16 +86,13 @@ public class RequisicoesUpdates
 			        	linha = iterador.next();
 			        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
-			        	
-<<<<<<< HEAD
-			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
-			        	//System.out.println("Atualização:" + pais.getNome() + "\t" + casos); 
+			        
 				    
+			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));			        
 			        }
 			    } 
 				
 			    catch (ParseException e) {
-			    	//MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de atualização");
 			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida\nPaís: " + pais.getNome(),
 			    										 "Erro de atualização");
 			    }
