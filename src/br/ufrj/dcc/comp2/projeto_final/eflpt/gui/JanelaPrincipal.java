@@ -23,10 +23,21 @@ import javax.swing.text.PlainDocument;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
 
+
+/**
+ * Essa classe implementa a janela principal do programa.
+ * Ela fornece os botões para solicitação dos rankings.
+ * @author Thiago Castro
+ *
+ */
 public class JanelaPrincipal 
 {
 	private JFrame janelaPrincipal = new JFrame("Dados COVID-19");
 	private JLabel msgBemVindo = new JLabel("Criador de rankings internacionais de COVID-19");
+	
+	/**
+	 * Inicia a janela principal, contendo os botões para criação dos rankings.
+	 */
 	
 	public void iniciaJanelaPrincipal()
 	{
@@ -37,8 +48,7 @@ public class JanelaPrincipal
 		msgBemVindo.setFont(new Font ("Times New Roman", Font.BOLD , 22));
 
 		JPanel painel = new JPanel();
-		adicionaBotoes(painel, janelaPrincipal);
-		
+		adicionaBotoes(painel);
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(msgBemVindo);
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
@@ -63,13 +73,17 @@ public class JanelaPrincipal
 		});
 	}
 	
-	public void adicionaBotoes(JPanel painel, JFrame janelaPrincipal)
+	/**
+	 * Adiciona os botões na janela principal
+	 * @param painel o painel que contém os botões
+	 */
+	
+	public void adicionaBotoes(JPanel painel)
 	{
 		JButton rankingPrincipal = new JButton("Ranking internacional casos/recuperados/mortos por período");
 		JButton rankingCrescimento = new JButton("Ranking internacional de crescimento de casos/recuperados/mortos por período");
 		JButton rankingMortalidade = new JButton("Ranking internacional de mortalidade por período");
 		JButton locaisProximosMaior = new JButton("Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)");
-		JButton exportarRankings = new JButton("Exportar rankings para arquivo CSV/TSV");
 		
 		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
@@ -77,13 +91,12 @@ public class JanelaPrincipal
 		rankingCrescimento.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rankingMortalidade.setAlignmentX(Component.CENTER_ALIGNMENT);
 		locaisProximosMaior.setAlignmentX(Component.CENTER_ALIGNMENT);
-		exportarRankings.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
-		geraEventoReceptorPeriodo(rankingPrincipal);
-		geraEventoReceptorPeriodo(rankingCrescimento);
-		geraEventoReceptorPeriodo(rankingMortalidade);
+		geraEventoReceptorPeriodo(rankingPrincipal, 1);
+		geraEventoReceptorPeriodo(rankingCrescimento, 2);
+		geraEventoReceptorPeriodo(rankingMortalidade, 3);
 		geraEventoReceptorRaio(locaisProximosMaior);
-		geraEventoReceptorLocalArquivo(exportarRankings);
 		
 		painel.add(rankingPrincipal);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
@@ -93,21 +106,32 @@ public class JanelaPrincipal
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
 		painel.add(locaisProximosMaior);
 		painel.add(Box.createRigidArea(new Dimension(50,50)));
-		painel.add(exportarRankings);
-		painel.add(Box.createRigidArea(new Dimension(50,50)));
 	}
 	
-	public void geraEventoReceptorPeriodo(JButton botao)
+	/**
+	 * Adiciona ação aos botões que geram ranking que
+	 * necessitam apenas de um intervalo de data
+	 * @param botao o botão que abre a janela de receber data
+	 * @param ranking o número do ranking a ser chamado. Na ordem dos botões: 1, 2 ou 3
+	 */
+	
+	public void geraEventoReceptorPeriodo(JButton botao, int ranking)
 	{
 		botao.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				abreJanelaRecebePeriodo(janelaPrincipal, null);				
+				abreJanelaRecebePeriodo(null, ranking);				
 			}			
 		});
 	}
+	
+	/**
+	 * Adiciona ação ao botão que gera o ranking de local
+	 * mais próximo ao local com maior taxa de crescimento
+	 * @param botao o botão que abre a janela de receber raio
+	 */
 	
 	public void geraEventoReceptorRaio(JButton botao)
 	{
@@ -116,10 +140,15 @@ public class JanelaPrincipal
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				abreJanelaRecebeRaio(janelaPrincipal);				
+				abreJanelaRecebeRaio();				
 			}			
 		});
 	}
+	
+	/**
+	 * Adiciona ação de abrir a janela de salvar como para salvar o ranking gerado
+	 * @param botao o botão que abrirá a janela de salvamento
+	 */
 	
 	public void geraEventoReceptorLocalArquivo(JButton botao)
 	{
@@ -128,13 +157,18 @@ public class JanelaPrincipal
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				abreJanelaRecebeLocaisArquivos(janelaPrincipal);				
+				abreJanelaRecebeLocaisArquivos();				
 			}			
 		});
 	}
+	/**
+	 * Abre o diálogo que recebe as duas datas usadas para gerar um ranking
+	 * @param raio o raio caso seja o ranking de local mais próximo
+	 * @param ranking o número do ranking a ser chamado. Na ordem dos botões: 1, 2 ou 3
+	 */
 	
 	@SuppressWarnings("serial")
-	public void abreJanelaRecebePeriodo(JFrame janelaPrincipal, Integer raio)
+	public void abreJanelaRecebePeriodo(Integer raio, int ranking)
 	{
 		janelaPrincipal.setEnabled(false);
 		JDialog janela = new JDialog();
@@ -202,7 +236,7 @@ public class JanelaPrincipal
 			public void actionPerformed(ActionEvent e)
 			{
 				if (raio == null)
-					Coletor.converteData(primeiraData, segundaData, janela);
+					Coletor.converteData(primeiraData, segundaData, ranking, janela);
 				else
 					Coletor.converteData(primeiraData, segundaData, janela, raio);
 			}
@@ -219,10 +253,14 @@ public class JanelaPrincipal
 				janelaPrincipal.setEnabled(true);
 			}			
 		});		
-	}	
+	}
+	
+	/**
+	 * Abre o diálogo para receber o raio utilizado no ranking de local mais próximo
+	 */
 	
 	@SuppressWarnings("serial")
-	public void abreJanelaRecebeRaio(JFrame janelaPrincipal)
+	public void abreJanelaRecebeRaio()
 	{
 		janelaPrincipal.setEnabled(false);
 		JDialog janela = new JDialog();
@@ -269,7 +307,7 @@ public class JanelaPrincipal
 			public void actionPerformed(ActionEvent e)
 			{
 				if (Coletor.verificaRaio(raio, janela))
-					abreJanelaRecebePeriodo(janelaPrincipal, Integer.parseInt(raio.getText()));
+					abreJanelaRecebePeriodo(Integer.parseInt(raio.getText()), 0);
 			}
 			
 		});
@@ -286,9 +324,12 @@ public class JanelaPrincipal
 		});		
 	}
 	
-	public void abreJanelaRecebeLocaisArquivos(JFrame janelaPrincipal)
+	/**
+	 * Abre a janela de salvar como para receber o local de salvamento
+	 */
+	
+	public void abreJanelaRecebeLocaisArquivos()
 	{
-		Coletor.recebeLocalArquivo();
-		
+		Coletor.recebeLocalArquivo();		
 	}
 }
