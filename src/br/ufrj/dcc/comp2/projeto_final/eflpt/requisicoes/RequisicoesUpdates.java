@@ -88,7 +88,7 @@ public class RequisicoesUpdates
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 			        
 				    
-			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));			        
+			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
 			        }
 			    } 
 				
