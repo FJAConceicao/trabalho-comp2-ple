@@ -20,11 +20,30 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
+/**
+ * Essa classe controla os arquivos do banco de dados que conectam o cache não volátil com o volátil.
+ * Os dados ficam na raiz do programa na pasta database.
+ * Ao salvar, se a pasta database não existir, ela é criada
+ * @author Thiago Castro
+ */
+
+/**
+ * Essa classe controla os arquivos do banco de dados que conectam o cache não volátil com o volátil.
+ * Os dados ficam na raiz do programa na pasta database.
+ * Ao salvar, se a pasta database não existir, ela é criada
+ * @author Thiago Castro
+ */
+
 public class ArquivoBase 
 {
 	private final String separador = File.separator;
 	
 	private Dados central = Dados.retornaInstancia();
+	
+	/**
+	 * Verifica se a pasta database existe
+	 * @return true se existe ou se foi criada com sucesso, false se não foi possível criar
+	 */
 	
 	public boolean verificaExistenciaPastaDataBase()
 	{
@@ -46,6 +65,12 @@ public class ArquivoBase
 		return true;
 	}
 	
+	/**
+	 * Verifica a existência do arquivo fornecido
+	 * @param localArquivo o local do arquivo
+	 * @return true se existe, false senão
+	 */
+	
 	public boolean verificaExistenciaArquivo(String localArquivo)
 	{
 		File f = new File(localArquivo);
@@ -60,6 +85,16 @@ public class ArquivoBase
 		}
 		return true;
 	}
+	
+	/**
+	 * Abre o arquivo fornecido e carrega no banco de dados do programa.
+	 * Ao final do carregamento de um país específico, se a última data
+	 * for anterior a data atual, é verificado se existe atualizações
+	 * pelo método realizaAtualizacoes da classe Controle
+	 * @param nomeArquivo o nome do arquivo(confirmed.tsv, deaths.tsv, recovered.tsv)
+	 * @param status o tipo de caso
+	 * @return true se foi possível ler o arquivo, false c.c
+	 */
 	
 	public boolean abreArquivosBase(String nomeArquivo, StatusCaso status)
 	{
@@ -137,6 +172,8 @@ public class ArquivoBase
 				LocalDateTime agora = LocalDateTime.now();
 				LocalTime meiaNoite = LocalTime.MIDNIGHT;
 				
+				/* Verifica se o último dia somado a um não está igual ao dia atual e é anterior a ele*/
+				
 				boolean igualdadeDia = momento.plusDays(1).isBefore(LocalDateTime.of(agora.toLocalDate(), meiaNoite))
 						&& !momento.plusDays(1).equals(LocalDateTime.of(agora.toLocalDate(), meiaNoite));
 				
@@ -163,20 +200,42 @@ public class ArquivoBase
 		return true;
 	}
 	
+	/**
+	 * Abre o arquivo confirmed.tsv usando o método abreArquivosBase
+	 * @return true se tudo ocorreu corretamente, false senão
+	 */
+	
 	public boolean abreArquivoConfirmados()
 	{
 		return abreArquivosBase("confirmed.tsv", StatusCaso.CONFIRMADOS);
 	}
+	
+	/**
+	 * Abre o arquivo deaths.tsv usando o método abreArquivosBase
+	 * @return true se tudo ocorreu corretamente, false senão
+	 */
 	
 	public boolean abreArquivoMortos()
 	{
 		return abreArquivosBase("deaths.tsv", StatusCaso.MORTOS);
 	}
 	
+	/**
+	 * Abre o arquivo recovered.tsv usando o método abreArquivosBase
+	 * @return true se tudo ocorreu corretamente, false senão
+	 */
+	
 	public boolean abreArquivoRecuperados()
 	{
 		return abreArquivosBase("recovered.tsv", StatusCaso.RECUPERADOS);
 	}
+	
+	/**
+	 * Salva o arquivo passado como argumento na pasta database.
+	 * @param nomeArquivo o nome do arquivo
+	 * @param tipo o tipo de caso
+	 * @return true se foi possível salvar, false senão
+	 */
 	
 	public boolean salvaArquivosBase(String nomeArquivo, StatusCaso tipo)
 	{
@@ -250,15 +309,30 @@ public class ArquivoBase
 		return true;
 	}
 	
+	/**
+	 * Salva o arquivo confirmed.tsv utilizando o método salvaArquivosBase
+	 * @return true se foi possível salvar, false senão
+	 */
+	
 	public boolean salvaArquivoConfirmados()
 	{
 		return salvaArquivosBase("confirmed.tsv", StatusCaso.CONFIRMADOS);		
 	}
 	
+	/**
+	 * Salva o arquivo deaths.tsv utilizando o método salvaArquivosBase
+	 * @return true se foi possível salvar, false senão
+	 */
+	
 	public boolean salvaArquivoMortos()
 	{
 		return salvaArquivosBase("deaths.tsv", StatusCaso.MORTOS);		
 	}	
+	
+	/**
+	 * Salva o arquivo recovered.tsv utilizando o método salvaArquivosBase
+	 * @return true se foi possível salvar, false senão
+	 */
 	
 	public boolean salvaArquivoRecuperados()
 	{
