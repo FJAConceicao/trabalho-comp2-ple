@@ -71,14 +71,15 @@ public class RequisicoesUpdates
 			        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 			        	
 			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
-			        	//System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
+			        	
+			        	//Mostrar print abaixo na tela de atualização de dados
+			        	System.out.println("Atualização:" + pais.getNome() + "\t" + casos);  
 				        
 			        }
 			    } 
 				
 			    catch (ParseException e) {
-			    	//MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de atualização");
-			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida\nPaís: " + pais.getNome(),
+			    	MensagensDeErro.mostraMensagemDeErro(String.format("Erro ao atualizar (País: %s)", pais.getNome()),
 			    										 "Erro de atualização");
 			    }
 		    }

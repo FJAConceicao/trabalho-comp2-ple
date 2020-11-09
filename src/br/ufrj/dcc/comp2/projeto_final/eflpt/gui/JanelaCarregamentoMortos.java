@@ -1,3 +1,5 @@
+package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -14,9 +16,9 @@ public class JanelaCarregamentoMortos
     	janelaPrincipal.getContentPane().repaint();
     	
     	StringBuilder sb = new StringBuilder();
-    	sb.append("Carregando o número de mortos do ");
+    	sb.append("Carregando o nï¿½mero de mortos do ");
     	sb.append(numeroPais);
-    	sb.append("º país...");
+    	sb.append("ï¿½ paï¿½s...");
     	JLabel msg = new JLabel(sb.toString());
     	
     	janelaPrincipal.setSize(600, 150);
@@ -45,7 +47,7 @@ public class JanelaCarregamentoMortos
     	janelaPrincipal.getContentPane().revalidate();
     	janelaPrincipal.getContentPane().repaint();
     	
-    	JLabel msgConcluido = new JLabel("Carregamento concluído.");  
+    	JLabel msgConcluido = new JLabel("Carregamento concluï¿½do.");  
     	
     	janelaPrincipal.setSize(600, 150);
 		janelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
