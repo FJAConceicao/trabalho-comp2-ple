@@ -24,23 +24,24 @@ import javax.swing.table.DefaultTableModel;
 
 public class JanelaLocaisMaisProximos {
 	
-	JFrame janelaLocaisProximos;
-	Container regiaoPrincipal;
+	private JFrame janelaLocaisProximos;
+	private Container regiaoPrincipal;
 	
 	public void iniciaJanelaLocaisMaisProximos(JFrame janelaParaAtivar, String localMaiorCresc, String[] locaisMaisProximos)
 	{
 		janelaLocaisProximos = new JFrame("Locais mais próximos do local com maior crescimento");
-		janelaLocaisProximos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaParaAtivar.setEnabled(false);
+		janelaLocaisProximos.dispatchEvent(new WindowEvent(janelaLocaisProximos, WindowEvent.WINDOW_CLOSING));
 		
 		JMenuBar barraExportar = new JMenuBar();
 		JMenuItem exportar = new JMenuItem("Exportar...");
 		barraExportar.add(exportar);
-		
+		janelaLocaisProximos.add(barraExportar);
 		exportar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e)
 			{
-				Coletor.recebeLocalArquivo();
+				Coletor.recebeLocalArquivo(locaisMaisProximos, "raio");
 			}
 		});
 		
@@ -108,16 +109,11 @@ public class JanelaLocaisMaisProximos {
 		/* adiciona locais mais próximos na tabela baseado em uma lista de strings
 		* conteudo da linha: posicao-ranking    pais    taxa-mortalidade
 		 * */
-		for(int numero = 1; numero <= locaisMaisProximos.length; numero++) {
-			modeloTabelaLocaisProximos.addRow(new Object[] {numero, locaisMaisProximos[numero]}); //{numero, pais}
+		for(int numero = 0; numero < locaisMaisProximos.length; numero++) {
+			modeloTabelaLocaisProximos.addRow(new Object[] {numero+1, locaisMaisProximos[numero].split("!")[0]}); //{numero, pais}
 		}
 		
-		/*
-		 * Exemplo de preenchimento da tabela com números de 1000 a 1500
-		for(int numero = 1000; numero <= 1500; numero++) {
-			modeloTabelaLocaisProximos.addRow(new Object[] {numero, numero});
-		}
-		*/
+		
 
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaLocaisProximos);
 		scrollPaneTabela.setPreferredSize(new Dimension(400, 500));

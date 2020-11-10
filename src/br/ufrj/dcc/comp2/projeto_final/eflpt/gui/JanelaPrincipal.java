@@ -147,22 +147,7 @@ public class JanelaPrincipal
 		});
 	}
 	
-	/**
-	 * Adiciona ação de abrir a janela de salvar como para salvar o ranking gerado
-	 * @param botao o botão que abrirá a janela de salvamento
-	 */
 	
-	public void geraEventoReceptorLocalArquivo(JButton botao)
-	{
-		botao.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e) 
-			{
-				abreJanelaRecebeLocaisArquivos();				
-			}			
-		});
-	}
 	/**
 	 * Abre o diálogo que recebe as duas datas usadas para gerar um ranking
 	 * @param raio o raio caso seja o ranking de local mais próximo
@@ -238,9 +223,9 @@ public class JanelaPrincipal
 			public void actionPerformed(ActionEvent e)
 			{
 				if (raio == null)
-					Coletor.converteData(primeiraData, segundaData, ranking, janela);
+					Coletor.converteData(primeiraData, segundaData, ranking, janela, janelaPrincipal);
 				else
-					Coletor.converteData(primeiraData, segundaData, janela, raio);
+					Coletor.converteData(primeiraData, segundaData, janela, raio, janelaPrincipal);
 			}
 			
 		});
@@ -326,12 +311,7 @@ public class JanelaPrincipal
 		});		
 	}
 	
-	/**
-	 * Abre a janela de salvar como para receber o local de salvamento
-	 */
 	
-	public void abreJanelaRecebeLocaisArquivos()
-	{
-		Coletor.recebeLocalArquivo();		
-	}
+	
+	
 }

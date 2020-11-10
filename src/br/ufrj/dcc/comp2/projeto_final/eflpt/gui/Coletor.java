@@ -1,16 +1,24 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
 
+import java.awt.Component;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Estatistica;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalCasos;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalMortos;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalRecuperados;
 
 /**
  * Essa classe implementa a recepção e o controle de dados oriundos da GUI.
@@ -28,22 +36,49 @@ public class Coletor
 	 * @param fim a data fim
 	 */
 	
-	public static void geradorRanking(int numero, LocalDate inicio, LocalDate fim)
+	public static void geradorRanking(int numero, LocalDate inicio, LocalDate fim, JFrame janelaPrincipal)
 	{
+		TotalMortos mortos = new TotalMortos();
+		TotalCasos casos = new TotalCasos();
+		TotalRecuperados recuperados = new TotalRecuperados();
+		setDatas(mortos, fim, inicio);
+		setDatas(casos, fim, inicio);
+		setDatas(recuperados, fim, inicio);
+		
+		
+		
+		
 		switch(numero)
 		{
 			case 1:
-				// Chamar o ranking do primeiro botão
+				 String[] rankingCasos = casos.rankingCasos();
+				 String[] rankingMortos = mortos.rankingMortos();
+				 String[] rankingRecuperados = recuperados.rankingRecuperados();
+				 JanelaRankingNumeroCrescimento janela = new JanelaRankingNumeroCrescimento();
+				 janela.iniciaJanelaRanking(janelaPrincipal, "Número", rankingCasos, rankingRecuperados, rankingMortos);
+				 
 				break;
 			case 2:
-				// Chamar o ranking crescimento do segundo botão
+				String[] rankingCasosCrescimento = casos.rankingCasosCrescimento();
+				String[] rankingMortosCrescimento = mortos.rankingMortosCrescimento();
+				String[] rankingRecuperadosCrescimento = recuperados.rankingRecuperadosCrescimento();	
+				JanelaRankingNumeroCrescimento janelaCrescimento = new JanelaRankingNumeroCrescimento();
+				janelaCrescimento.iniciaJanelaRanking(janelaPrincipal, "Crescimento", rankingCasosCrescimento, rankingRecuperadosCrescimento, rankingMortosCrescimento);
 				break;
 			case 3:
-				// Chamar o ranking de mortalidade do terceiro botão
+				String[] rankingCasosMortalidade = casos.rankingMortalidade();
+				JanelaRankingMortalidade janelaMortalidade = new JanelaRankingMortalidade();
+				janelaMortalidade.iniciaJanelaRankingMortalidade(janelaPrincipal, rankingCasosMortalidade);
 				break;
 		}
 	}
 	
+	private static  void setDatas(Estatistica objeto, LocalDate fim, LocalDate inicio) {
+			objeto.setDataFim(fim);
+			objeto.setDataInicio(inicio);
+		
+	}
+
 	/**
 	 * Verifica se as datas para receber um período são corretas.
 	 * @param data1 a data início do período
@@ -79,6 +114,16 @@ public class Coletor
 
 			return false;
 		}
+		if(data1.equals(LocalDate.now()) || data2.equals(LocalDate.now())) {
+			
+			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
+					 "Os dados de hoje ainda não foram atualizados, espere o intervalo de 1 dia para fazer esta consulta",
+					 "Erro ao receber data");
+
+			return false;
+		}
+		
+		
 		
 		return true;
 	}
@@ -91,7 +136,7 @@ public class Coletor
 	 * @param janela a janela principal do programa
 	 */
 	
-	public static void converteData(JTextField primeiraData, JTextField segundaData, int ranking, JDialog janela)
+	public static void converteData(JTextField primeiraData, JTextField segundaData, int ranking, JDialog janela, JFrame janelaPrincipal)
 	{
 		LocalDate inicio;
 		LocalDate fim;
@@ -113,7 +158,7 @@ public class Coletor
 		if (verificaDatas(inicio, fim, primeiraData))
 		{
 			janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-			Coletor.geradorRanking(ranking, inicio, fim);
+			Coletor.geradorRanking(ranking, inicio, fim, janelaPrincipal);
 		}
 	}
 	
@@ -126,7 +171,7 @@ public class Coletor
 	 * @param raio o valor do raio
 	 */
 	
-	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela, int raio)
+	public static void converteData(JTextField primeiraData, JTextField segundaData, JDialog janela, int raio, JFrame janelaPrincipal)
 	{
 		LocalDate inicio;
 		LocalDate fim;
@@ -149,7 +194,13 @@ public class Coletor
 		if (verificaDatas(inicio, fim, primeiraData))
 		{
 			janela.dispatchEvent(new WindowEvent(janela, WindowEvent.WINDOW_CLOSING));
-			// Chamar o método para criar o ranking dos locais mais próximos.
+			TotalCasos locaisProximos = new TotalCasos();
+			setDatas(locaisProximos,fim, inicio);
+			JanelaLocaisMaisProximos janelaRaio = new JanelaLocaisMaisProximos();
+			String[] paises = locaisProximos.rankingCasosCrescimento();
+			String pais = paises[0].split("!")[1];
+			String[] locais = locaisProximos.rankingRaio(raio, pais);
+			janelaRaio.iniciaJanelaLocaisMaisProximos(janelaPrincipal,pais,locais);
 		}
 	}
 	
@@ -199,7 +250,7 @@ public class Coletor
 	 * Esse método abre uma janela padrão de salvar como do sistema.
 	 */
 
-	public static void recebeLocalArquivo()
+	public static void recebeLocalArquivo(String[] ranking, String tipoRanking)
 	{
 		File arquivo;
 		JFileChooser verArqSistema = new JFileChooser();
@@ -217,12 +268,12 @@ public class Coletor
 			
 			if (arquivo.getName().toLowerCase().endsWith(".csv"))
 			{
-				arquivo = new File(arquivo.getAbsoluteFile().toString());
+				
 				// Chamar método para salvar os rankings
 			}
 			else if (arquivo.getName().toLowerCase().endsWith(".tsv"))
 			{
-				arquivo = new File(arquivo.getAbsoluteFile().toString());
+				
 				// Chamar método para salvar os rankings
 			}
 			else
@@ -232,5 +283,9 @@ public class Coletor
 													 "Erro ao receber local arquivo");
 			}
 		}
+	}
+	
+	public static void recebeLocalArquivo(String[] rankingCasos, String[] rankingRecuperados, String[] rankingMortos, String tipoRanking) {
+		
 	}
 }
