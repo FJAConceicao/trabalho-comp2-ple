@@ -18,6 +18,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaCarregamento;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 /**
@@ -254,7 +255,8 @@ public class ArquivoBase
 		
 		if (!verificaExistenciaPastaDataBase()) {
 			// Imprimir erro ao salvar banco de dados
-			MensagensDeErro.mostraMensagemDeErro("Banco de dados não encontrado.",
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Banco de dados não encontrado.",
 												 "Abertura do banco de dados");
 			return false;
 		}
@@ -312,7 +314,8 @@ public class ArquivoBase
 		}
 		catch (FileNotFoundException e)
 		{
-			MensagensDeErro.mostraMensagemDeErro("Arquivo " + nomeArquivo + " não encontrado.",
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Arquivo " + nomeArquivo + " não encontrado.",
 												 "Abertura de arquivo");
 			return false;			
 		}	
