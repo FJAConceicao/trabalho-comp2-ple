@@ -9,6 +9,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaCarregamento;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 import java.io.IOException;
@@ -93,23 +94,29 @@ public class RequisicoesUpdates
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro(String.format("Erro ao atualizar (País: %s)", pais.getNome()),
+			    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+			    										 String.format("Erro ao atualizar (País: %s)", pais.getNome()),
 			    										 "Erro de atualização");
 			    }
 		    }
 		    else {
-		    	MensagensDeErro.mostraMensagemDeErro("Ocorreu um erro durante a requisição.\n"
-		    										  + "Código HTTP: " + codStatus,
-		    										  "Erro de atualização");
+		    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+		    										 "Ocorreu um erro durante a requisição.\n"
+		    										 + "Código HTTP: " + codStatus,
+		    										 "Erro de atualização");
 		    }
 		} 
 			
 		catch (IOException e) {
-			MensagensDeErro.mostraMensagemDeErro("Problema com a conexão", "Erro de atualização");
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Problema com a conexão",
+												 "Erro de atualização");
 		} 
 			
 		catch (InterruptedException e) {
-			MensagensDeErro.mostraMensagemDeErro("Requisição interrompida", "Erro de atualização");
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Requisição interrompida",
+												 "Erro de atualização");
 		}
 	}
 }
