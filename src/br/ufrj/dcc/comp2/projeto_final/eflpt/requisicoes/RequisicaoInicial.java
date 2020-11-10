@@ -51,12 +51,14 @@ public class RequisicaoInicial
                     .build();
 
 	   Pais paisAtual;
+	   int codStatus = 0;
+	   
 	   try 
 	   {
 			
 		    HttpResponse<String> resposta = cliente.send(requisicaoPais, HttpResponse.BodyHandlers.ofString());
 			
-		    int codStatus = resposta.statusCode();
+		    codStatus = resposta.statusCode();
 		    
 		    if (codStatus >= 200 && codStatus < 300)
 		    {
@@ -75,24 +77,33 @@ public class RequisicaoInicial
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
-			    										 "Erro ao obter algum país",
-			    										 "Erro de requisição");
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
+			    											  "Erro ao obter algum país",
+			    											  codStatus,
+			    											  "Erro de requisição");
 			    }
+		    }
+		    else {
+		    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
+						  								  "Ocorreu um erro durante a requisição",
+						  								  codStatus,
+						  								  "Erro de requisição");
 		    }
 			
 		} 
 			
 		catch (IOException e) {
-			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
-												 "Problema com a conexão",
-												 "Erro de requisição");
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
+												 	  "Problema com a conexão",
+												 	  codStatus,
+												 	  "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
-			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
-												 "Requisição interrompida",
-												 "Erro de requisição");
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
+													  "Requisição interrompida",
+													  codStatus,
+													  "Erro de requisição");
 		}	   
    }
    
@@ -159,14 +170,13 @@ public class RequisicaoInicial
 			    }
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
-			    										 String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
-			    										 "Erro de requisição");
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
+			    											  String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
+							  								  codStatus,
+							  								  "Erro de requisição");
 			    }
 		    }
 		    else {
-		    	
-		    	// Imprimir janela de erro com código de status e encerrar o programa.
 		    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 		    											  "Ocorreu um erro durante a requisição",
 						  								  codStatus,
@@ -175,8 +185,6 @@ public class RequisicaoInicial
 		}
 	   
 		catch (IOException e) {
-			
-			// Imprimir janela de erro com código de status e encerrar o programa.
 			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 													  "Problema com a conexão",
 													  codStatus,
@@ -184,8 +192,6 @@ public class RequisicaoInicial
 		} 
 			
 		catch (InterruptedException e) {
-			
-			// Imprimir janela de erro com código de status e encerrar o programa.
 			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 					  								  "Requisição interrompida",
 					  								  codStatus,
@@ -306,29 +312,21 @@ public class RequisicaoInicial
 				    } 
 					
 				    catch (ParseException e) {
-				    	
-				    	// Imprimir janela de erro com código de status e encerrar o programa.
 				    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 				    											  "Erro ao obter número de casos e momento (País: " + paisAtual.getNome() + ")",
 				    											  codStatus,
 				    											  "Erro de requisição");
-				    	
 				    }
 			    }
 			    else {
-			    	
-			    	// Imprimir janela de erro com código de status e encerrar o programa.
 			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 			    											  "Ocorreu um erro durante a requisição",
 							  								  codStatus,
 							  								  "Erro de requisição");
-			    	
 			    }
 			} 
 				
 			catch (IOException e) {
-				
-				// Imprimir janela de erro com código de status e encerrar o programa.
 				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Problema com a conexão",
 														  codStatus,
@@ -336,13 +334,10 @@ public class RequisicaoInicial
 			} 
 				
 			catch (InterruptedException e) {
-				
-				// Imprimir janela de erro com código de status e encerrar o programa.
 				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Requisição interrompida",
 														  codStatus,
 														  "Erro de requisição");
-				
 			}
 	   }
    }
