@@ -57,8 +57,9 @@ public class Controle
 			r.requisitarRecuperados(d);
 			
 			//Mostrar carregamento concluido e fechar tela de carregamento
-			jc.mostraConcluidoFechaTela();
+			
 		}
+		jc.mostraConcluidoFechaTela();
 	}
 	
 	/**
