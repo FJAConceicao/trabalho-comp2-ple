@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,8 +23,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
-
+/**
+ * 
+ * @author Felipe de Jesus 
+ */
 public class JanelaRankingNumeroCrescimento {
 
 	private JFrame janelaRanking;
@@ -86,7 +87,14 @@ public class JanelaRankingNumeroCrescimento {
 		});
 	}
 	
-	//Esse método precisa receber alguma lista de valores {pais, valor} para adicionar na tabela
+	//
+	
+	/**
+	 * Esse método precisa receber alguma lista de valores {pais, valor} para adicionar na tabela
+	 * 
+	 * @param nomeLabelTitulo
+	 * @param linhas
+	 */
 	private void adicionaTabelaRanking(String nomeLabelTitulo, String[] linhas) //List<Medicao> medicoes 
 	{
 		JLabel labelTituloTabela = new JLabel(nomeLabelTitulo);

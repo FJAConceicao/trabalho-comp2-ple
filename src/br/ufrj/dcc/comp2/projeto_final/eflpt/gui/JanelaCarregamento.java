@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.WindowEvent;
 import java.awt.Toolkit;
 
 import javax.swing.Box;
@@ -15,6 +14,10 @@ import javax.swing.JLabel;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 
+/** 
+ * 
+ * @author Felipe de Jesus
+ */
 public class JanelaCarregamento {
 	
 	private static JFrame janelaCarregamento;
@@ -23,6 +26,9 @@ public class JanelaCarregamento {
 	private static JLabel labelPais;
 	private JLabel labelGifCarregando;
 
+	/** 
+	 * 
+	 */
 	public void iniciaTelaCarregamento() {
 		
 		janelaCarregamento = new JFrame("Dados COVID-19");
@@ -60,6 +66,12 @@ public class JanelaCarregamento {
 	
 	// Tipo carregamento: casos, mortes ou recuperados
 	// TipoDeTarefa: Carregando ou Atualizando
+	
+	/** 
+	 * @param status
+	 * @param tipoDeTarefa
+	 * @param tipoDeCarregamento
+	 */
 	public static void setaTipoCasoDeInfoLabelInformativo(StatusCaso status, String tipoDeTarefa, String tipoDeCarregamento) {
 		String mensagemNaTela = tipoDeTarefa + " o número de " + tipoDeCarregamento;
 		
@@ -72,6 +84,10 @@ public class JanelaCarregamento {
 		labelPais.setText(" ");
 	}
 	
+	/** 
+	 * 
+	 * @param nomePais
+	 */
 	public static void setaPais(String nomePais) {
 		labelPais.setText(nomePais);
 	}
@@ -80,14 +96,26 @@ public class JanelaCarregamento {
      * 	- Carregamento concluido
      * 	- Iniciando carregamento 
      * */
+	
+	/** 
+	 * 
+	 * @param texto
+	 */
     public static void setaTextoLabelInformativo(String texto) {
     	labelInformativo.setText(texto);
     }
     
+    /** 
+	 * 
+	 * @return 
+	 */
     public static JFrame getJanelaPrincipal() {
     	return janelaCarregamento;
     }
     
+    /** 
+	 * 
+	 */
     public void mostraConcluidoFechaTela() {
     	setaTextoLabelInformativo("Carregamento concluido!");
     	
@@ -98,12 +126,20 @@ public class JanelaCarregamento {
     	janelaCarregamento.dispose();
     }
     
+    /** 
+     * 
+	 * @param milissegundos
+	 */
     public static void esperaSegundos(int milissegundos) {
     	try {
     		Thread.sleep(milissegundos);
     	} catch (Exception e) {}
     }
     
+    /** 
+	 * 
+	 * @param janela
+	 */
     private void centralizarTela(JFrame janela) {
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height;

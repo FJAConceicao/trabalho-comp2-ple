@@ -22,12 +22,19 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/** 
+ * 
+ */
 public class JanelaRankingMortalidade {
 
 	private JFrame janelaRankingMortalidade;
 	private Container regiaoPrincipal;
 	
-	//Esse método pode receber a lista de linhas com {pais, valor} para plotar na tela
+	/** 
+	 * Esse método pode receber a lista de linhas com {pais, valor} para plotar na tela 
+	 * @param janelaParaAtivar
+	 * @param linhas
+	 */
 	public void iniciaJanelaRankingMortalidade(JFrame janelaParaAtivar, String[] linhas)
 	{
 		janelaRankingMortalidade = new JFrame("Ranking Internacional por período de tempo");

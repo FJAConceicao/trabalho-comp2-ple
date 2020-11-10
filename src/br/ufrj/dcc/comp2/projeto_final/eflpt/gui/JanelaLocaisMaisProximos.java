@@ -22,11 +22,21 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/** 
+ * 
+ * @author Felipe de Jesus
+ */
 public class JanelaLocaisMaisProximos {
 	
 	JFrame janelaLocaisProximos;
 	Container regiaoPrincipal;
 	
+	/** 
+	 * 
+	 * @param janelaParaAtivar
+	 * @param localMaiorCresc
+	 * @param locaisMaisProximos
+	 */
 	public void iniciaJanelaLocaisMaisProximos(JFrame janelaParaAtivar, String localMaiorCresc, String[] locaisMaisProximos)
 	{
 		janelaLocaisProximos = new JFrame("Locais mais próximos do local com maior crescimento");
@@ -70,6 +80,10 @@ public class JanelaLocaisMaisProximos {
 		});
 	}
 	
+	/** 
+	 * 
+	 * @param locaisMaisProximos
+	 */
 	public void adicionaTabela(String[] locaisMaisProximos) {
 
 		JLabel labelTabela = new JLabel("Locais mais próximos");
