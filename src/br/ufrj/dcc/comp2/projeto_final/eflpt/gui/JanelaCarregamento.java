@@ -19,7 +19,7 @@ public class JanelaCarregamento {
 	
 	private static JFrame janelaCarregamento;
 	private Container regiaoPrincipal;
-	private JLabel labelInformativo;
+	private static JLabel labelInformativo;
 	private static JLabel labelPais;
 	private JLabel labelGifCarregando;
 
@@ -48,7 +48,7 @@ public class JanelaCarregamento {
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(10,10)));
 		regiaoPrincipal.add(labelGifCarregando);
 		
-		centralizarTela();
+		centralizarTela(janelaCarregamento);
 		
 		janelaCarregamento.setUndecorated(true);
 		janelaCarregamento.setSize(600, 220);
@@ -59,8 +59,9 @@ public class JanelaCarregamento {
 	}
 	
 	// Tipo carregamento: casos, mortes ou recuperados
-	public void setaTipoCasoDeCarregamento(StatusCaso status, String tipoDeCarregamento) {
-		String mensagemNaTela = "Carregando o número de " + tipoDeCarregamento;
+	// TipoDeTarefa: Carregando ou Atualizando
+	public static void setaTipoCasoDeInfoLabelInformativo(StatusCaso status, String tipoDeTarefa, String tipoDeCarregamento) {
+		String mensagemNaTela = tipoDeTarefa + " o número de " + tipoDeCarregamento;
 		
 		if(status == StatusCaso.CONFIRMADOS || status == StatusCaso.RECUPERADOS)
 			mensagemNaTela += " confirmados";
@@ -68,7 +69,7 @@ public class JanelaCarregamento {
 			mensagemNaTela += " confirmadas";
 		
 		labelInformativo.setText(mensagemNaTela);
-		labelPais.setText("");
+		labelPais.setText(" ");
 	}
 	
 	public static void setaPais(String nomePais) {
@@ -79,7 +80,7 @@ public class JanelaCarregamento {
      * 	- Carregamento concluido
      * 	- Iniciando carregamento 
      * */
-    public void setaTextoLabelInformativo(String texto) {
+    public static void setaTextoLabelInformativo(String texto) {
     	labelInformativo.setText(texto);
     }
     
@@ -92,21 +93,23 @@ public class JanelaCarregamento {
     	
     	labelPais.setText("Abrindo o programa ...");
     	
-    	esperaSegundos(5000); //espera 2 seg antes de fechar
+    	esperaSegundos(3000); //espera 3 seg antes de fechar
     	
-    	janelaCarregamento.dispatchEvent(new WindowEvent(janelaCarregamento, WindowEvent.WINDOW_CLOSING));
+    	janelaCarregamento.dispose();
     }
     
-    private void esperaSegundos(int milissegundos) {
+    public static void esperaSegundos(int milissegundos) {
     	try {
     		Thread.sleep(milissegundos);
     	} catch (Exception e) {}
     }
     
-    private void centralizarTela() {
-    	Dimension ds = Toolkit.getDefaultToolkit().getScreenSize();
-    	Dimension dw = janelaCarregamento.getSize();
-    	
-    	janelaCarregamento.setLocation((ds.width - dw.width) / 2, (ds.height - dw.height) / 2);
+    private void centralizarTela(JFrame janela) {
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        janela.setSize(width/2, height/2);
+
+        janela.setLocationRelativeTo(null);
     }
 }
