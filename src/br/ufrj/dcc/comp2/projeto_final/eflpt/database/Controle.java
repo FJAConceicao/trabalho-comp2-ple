@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaCarregamento;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.requisicoes.RequisicaoInicial;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.requisicoes.RequisicoesUpdates;
 
@@ -18,6 +19,7 @@ public class Controle
 {
 	private ArquivoBase arqs = new ArquivoBase();
 	private Dados d = Dados.retornaInstancia();
+	private JanelaCarregamento jc = new JanelaCarregamento();
 	
 	/**
 	 * Carregamento inicial do banco de dados.
@@ -27,22 +29,37 @@ public class Controle
 	
 	public void verificador(RequisicaoInicial r)
 	{
+		jc.iniciaTelaCarregamento();
+		jc.setaTextoLabelInformativo("Recuperando informações do banco de dados ...");
+		
 		if (!arqs.abreArquivoConfirmados() || !arqs.abreArquivoMortos() || !arqs.abreArquivoRecuperados())
 		{
 			// Mostra mensagem de warning na tela
 			String mensagem = "Erro na abertura de um dos arquivos, realizando novos downloads ...";		
-			JOptionPane.showMessageDialog(null,
+			JOptionPane.showMessageDialog(JanelaCarregamento.getJanelaPrincipal(),
 										  mensagem,
 										  "Abertura de arquivos",
 										  JOptionPane.WARNING_MESSAGE);
 			
 			//Abrir tela de download de requisições
+			jc.setaTextoLabelInformativo("Iniciando download de requisições ...");
 			
+			jc.setaTextoLabelInformativo("Baixando informações de países ...");
 			r.requisitarPaises(d);
+			
+			jc.setaTipoCasoDeCarregamento(StatusCaso.CONFIRMADOS, "casos");
 			r.requisitarConfirmados(d);
+			
+			jc.setaTipoCasoDeCarregamento(StatusCaso.MORTOS, "mortes");
 			r.requisitarMortes(d);
+			
+			jc.setaTipoCasoDeCarregamento(StatusCaso.RECUPERADOS, "recuperados");
 			r.requisitarRecuperados(d);
+			
+			//Mostrar carregamento concluido e fechar tela de carregamento
+			
 		}
+		jc.mostraConcluidoFechaTela();
 	}
 	
 	/**

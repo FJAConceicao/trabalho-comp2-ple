@@ -9,6 +9,7 @@ import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaCarregamento;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 
 import java.io.IOException;
@@ -74,7 +75,8 @@ public class RequisicaoInicial
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro("Erro ao obter algum país",
+			    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+			    										 "Erro ao obter algum país",
 			    										 "Erro de requisição");
 			    }
 		    }
@@ -82,11 +84,15 @@ public class RequisicaoInicial
 		} 
 			
 		catch (IOException e) {
-			MensagensDeErro.mostraMensagemDeErro("Problema com a conexão", "Erro de requisição");
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Problema com a conexão",
+												 "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
-			MensagensDeErro.mostraMensagemDeErro("Requisição interrompida", "Erro de requisição");
+			MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+												 "Requisição interrompida",
+												 "Erro de requisição");
 		}	   
    }
    
@@ -143,6 +149,7 @@ public class RequisicaoInicial
 				        latitude = Float.parseFloat((String)	((JSONObject) linha).get("Lat"));
 				        longitude = Float.parseFloat((String)	((JSONObject) linha).get("Lon"));
 				        paisAtual.setaInfo(codigo, latitude, longitude);
+				        JanelaCarregamento.setaPais(paisAtual.getNome());
 			        }
 			    }
 			    
@@ -152,14 +159,15 @@ public class RequisicaoInicial
 			    }
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro(String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
+			    	MensagensDeErro.mostraMensagemDeErro(JanelaCarregamento.getJanelaPrincipal(),
+			    										 String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
 			    										 "Erro de requisição");
 			    }
 		    }
 		    else {
 		    	
 		    	// Imprimir janela de erro com código de status e encerrar o programa.
-		    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+		    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 		    											  "Ocorreu um erro durante a requisição",
 						  								  codStatus,
 						  								  "Erro de requisição");
@@ -169,7 +177,7 @@ public class RequisicaoInicial
 		catch (IOException e) {
 			
 			// Imprimir janela de erro com código de status e encerrar o programa.
-			MensagensDeErro.mostraErroEncerraPrograma(null, 
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 													  "Problema com a conexão",
 													  codStatus,
 													  "Erro de requisição");
@@ -178,7 +186,7 @@ public class RequisicaoInicial
 		catch (InterruptedException e) {
 			
 			// Imprimir janela de erro com código de status e encerrar o programa.
-			MensagensDeErro.mostraErroEncerraPrograma(null, 
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 					  								  "Requisição interrompida",
 					  								  codStatus,
 					  								  "Erro de requisição");
@@ -293,13 +301,14 @@ public class RequisicaoInicial
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
 					        }
+					        JanelaCarregamento.setaPais(paisAtual.getNome());
 				        }
 				    } 
 					
 				    catch (ParseException e) {
 				    	
 				    	// Imprimir janela de erro com código de status e encerrar o programa.
-				    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+				    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 				    											  "Erro ao obter número de casos e momento (País: " + paisAtual.getNome() + ")",
 				    											  codStatus,
 				    											  "Erro de requisição");
@@ -309,7 +318,7 @@ public class RequisicaoInicial
 			    else {
 			    	
 			    	// Imprimir janela de erro com código de status e encerrar o programa.
-			    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 			    											  "Ocorreu um erro durante a requisição",
 							  								  codStatus,
 							  								  "Erro de requisição");
@@ -320,7 +329,7 @@ public class RequisicaoInicial
 			catch (IOException e) {
 				
 				// Imprimir janela de erro com código de status e encerrar o programa.
-				MensagensDeErro.mostraErroEncerraPrograma(null, 
+				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Problema com a conexão",
 														  codStatus,
 														  "Erro de requisição");
@@ -329,7 +338,7 @@ public class RequisicaoInicial
 			catch (InterruptedException e) {
 				
 				// Imprimir janela de erro com código de status e encerrar o programa.
-				MensagensDeErro.mostraErroEncerraPrograma(null, 
+				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Requisição interrompida",
 														  codStatus,
 														  "Erro de requisição");
