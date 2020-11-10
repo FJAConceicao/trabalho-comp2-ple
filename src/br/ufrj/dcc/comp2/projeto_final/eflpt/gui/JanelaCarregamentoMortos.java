@@ -47,7 +47,7 @@ public class JanelaCarregamentoMortos
     	janelaPrincipal.getContentPane().revalidate();
     	janelaPrincipal.getContentPane().repaint();
     	
-    	JLabel msgConcluido = new JLabel("Carregamento concluído.");  
+    	JLabel msgConcluido = new JLabel("Carregamento concluído."); 
     	
     	janelaPrincipal.setSize(600, 150);
 		janelaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

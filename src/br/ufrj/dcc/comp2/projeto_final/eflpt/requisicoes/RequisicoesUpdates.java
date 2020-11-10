@@ -93,7 +93,7 @@ public class RequisicoesUpdates
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida\nPaís: " + pais.getNome(),
+			    	MensagensDeErro.mostraMensagemDeErro(String.format("Erro ao atualizar (País: %s)", pais.getNome()),
 			    										 "Erro de atualização");
 			    }
 		    }

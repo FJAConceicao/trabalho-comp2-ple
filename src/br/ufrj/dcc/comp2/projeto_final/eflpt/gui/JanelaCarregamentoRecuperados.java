@@ -1,6 +1,5 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.gui;
 
-
 import java.awt.*;
 import javax.swing.*;
 

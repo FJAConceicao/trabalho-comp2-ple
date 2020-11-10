@@ -1,9 +1,10 @@
 package br.ufrj.dcc.comp2.projeto_final.eflpt.database;
 
+import javax.swing.JOptionPane;
+
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Pais;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.StatusCaso;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Dados;
-import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.MensagensDeErro;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.requisicoes.RequisicaoInicial;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.requisicoes.RequisicoesUpdates;
 
@@ -28,10 +29,12 @@ public class Controle
 	{
 		if (!arqs.abreArquivoConfirmados() || !arqs.abreArquivoMortos() || !arqs.abreArquivoRecuperados())
 		{
-			// Imprime erro na tela
-			String mensagemDeErro = "Erro na abertura de um dos arquivos, realizando novos downloads ...";
-			MensagensDeErro.mostraMensagemDeErro(mensagemDeErro,
-												 "Abertura do banco de dados");
+			// Mostra mensagem de warning na tela
+			String mensagem = "Erro na abertura de um dos arquivos, realizando novos downloads ...";		
+			JOptionPane.showMessageDialog(null,
+										  mensagem,
+										  "Abertura de arquivos",
+										  JOptionPane.WARNING_MESSAGE);
 			
 			//Abrir tela de download de requisições
 			

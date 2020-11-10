@@ -49,6 +49,7 @@ public class JanelaPrincipal
 
 		JPanel painel = new JPanel();
 		adicionaBotoes(painel);
+		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(msgBemVindo);
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(painel);

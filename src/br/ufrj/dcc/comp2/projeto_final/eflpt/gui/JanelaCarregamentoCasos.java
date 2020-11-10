@@ -19,6 +19,7 @@ public class JanelaCarregamentoCasos
     	sb.append("Carregando o número de casos do ");
     	sb.append(numeroPais);
     	sb.append("º país...");
+
     	JLabel msg = new JLabel(sb.toString());
     	
     	janelaPrincipal.setSize(600, 150);

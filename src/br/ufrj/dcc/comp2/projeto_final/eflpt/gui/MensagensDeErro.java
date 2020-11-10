@@ -26,8 +26,4 @@ public class MensagensDeErro
 		
 		System.exit(1); //encerra o programa
 	}
-	
-	public static void main(String[] args) {
-		MensagensDeErro.mostraErroEncerraPrograma(null, "Problema com conexão", 304, "Erro de Requisição");	
-	}
 }

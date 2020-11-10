@@ -48,8 +48,8 @@ public class RequisicaoInicial
 	   HttpRequest requisicaoPais = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.covid19api.com/countries"))
                     .build();
+
 	   Pais paisAtual;
-	   
 	   try 
 	   {
 			
@@ -74,7 +74,8 @@ public class RequisicaoInicial
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de requisição");				
+			    	MensagensDeErro.mostraMensagemDeErro("Erro ao obter algum país",
+			    										 "Erro de requisição");
 			    }
 		    }
 			
@@ -117,7 +118,7 @@ public class RequisicaoInicial
     	   requisicao = HttpRequest.newBuilder()
            .uri(URI.create("https://api.covid19api.com/country/" + paisAtual.getSlug() + "/status/confirmed"))
            .build();
-		   
+       
        int codStatus = 0;
 	   try 
 	   {
@@ -151,14 +152,15 @@ public class RequisicaoInicial
 			    }
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraMensagemDeErro("Resposta inválida", "Erro de requisição");
+			    	MensagensDeErro.mostraMensagemDeErro(String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
+			    										 "Erro de requisição");
 			    }
 		    }
 		    else {
 		    	
 		    	// Imprimir janela de erro com código de status e encerrar o programa.
 		    	MensagensDeErro.mostraErroEncerraPrograma(null, 
-						  								  "", //Inserir mensagem de erro aqui
+		    											  "Ocorreu um erro durante a requisição",
 						  								  codStatus,
 						  								  "Erro de requisição");
 		    }
@@ -290,7 +292,6 @@ public class RequisicaoInicial
 					        	momento = LocalDateTime.parse(((String) ((JSONObject) linha).get("Date")).replace("Z", ""));
 					        	casos = Long.parseLong(String.valueOf(( ((JSONObject) linha).get("Cases"))));
 					        	tipoDados.add(new Medicao(new Pais(paisAtual), momento, (int) casos, status));
-					        	
 					        }
 				        }
 				    } 
@@ -299,7 +300,7 @@ public class RequisicaoInicial
 				    	
 				    	// Imprimir janela de erro com código de status e encerrar o programa.
 				    	MensagensDeErro.mostraErroEncerraPrograma(null, 
-				    											  "Resposta inválida",
+				    											  "Erro ao obter número de casos e momento (País: " + paisAtual.getNome() + ")",
 				    											  codStatus,
 				    											  "Erro de requisição");
 				    	
@@ -309,7 +310,7 @@ public class RequisicaoInicial
 			    	
 			    	// Imprimir janela de erro com código de status e encerrar o programa.
 			    	MensagensDeErro.mostraErroEncerraPrograma(null, 
-							  								  "", //Inserir mensagem de erro aqui
+			    											  "Ocorreu um erro durante a requisição",
 							  								  codStatus,
 							  								  "Erro de requisição");
 			    	

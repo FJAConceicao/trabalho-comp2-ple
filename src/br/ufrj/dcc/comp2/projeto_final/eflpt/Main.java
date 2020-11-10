@@ -9,14 +9,12 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
-		 Controle c = new Controle();
-		 Dados d = Dados.retornaInstancia();
-         RequisicaoInicial i = new RequisicaoInicial();
-         c.verificador(i);
+		Controle c = new Controle();
+		Dados d = Dados.retornaInstancia();
+		RequisicaoInicial i = new RequisicaoInicial();
+		c.verificador(i);
          
-         JanelaPrincipal janela = new JanelaPrincipal();
-         janela.iniciaJanelaPrincipal();
-
+		JanelaPrincipal janela = new JanelaPrincipal();
+		janela.iniciaJanelaPrincipal();	
 	}
-
 }
