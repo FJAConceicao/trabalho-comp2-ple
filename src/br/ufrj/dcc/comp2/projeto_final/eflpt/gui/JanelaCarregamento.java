@@ -135,13 +135,9 @@ public class JanelaCarregamento {
     		Thread.sleep(milissegundos);
     	} catch (Exception e) {}
     }
-    
-    /** 
-	 * 
-	 * @param janela
-	 */
-    private void centralizarTela(JFrame janela) {
-    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    public static void centralizarTela(JFrame janela) {
+    	  Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height;
         int width = screenSize.width;
         janela.setSize(width/2, height/2);
