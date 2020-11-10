@@ -30,7 +30,7 @@ public class Controle
 	public void verificador(RequisicaoInicial r)
 	{
 		jc.iniciaTelaCarregamento();
-		jc.setaTextoLabelInformativo("Recuperando informações do banco de dados ...");
+		JanelaCarregamento.setaTextoLabelInformativo("Recuperando informações do banco de dados ...");
 		
 		if (!arqs.abreArquivoConfirmados() || !arqs.abreArquivoMortos() || !arqs.abreArquivoRecuperados())
 		{
@@ -42,23 +42,22 @@ public class Controle
 										  JOptionPane.WARNING_MESSAGE);
 			
 			//Abrir tela de download de requisições
-			jc.setaTextoLabelInformativo("Iniciando download de requisições ...");
+			JanelaCarregamento.setaTextoLabelInformativo("Iniciando download de requisições ...");
 			
-			jc.setaTextoLabelInformativo("Baixando informações de países ...");
+			JanelaCarregamento.setaTextoLabelInformativo("Baixando informações de países ...");
 			r.requisitarPaises(d);
 			
-			jc.setaTipoCasoDeCarregamento(StatusCaso.CONFIRMADOS, "casos");
+			JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(StatusCaso.CONFIRMADOS, "Carregando", "casos");
 			r.requisitarConfirmados(d);
 			
-			jc.setaTipoCasoDeCarregamento(StatusCaso.MORTOS, "mortes");
+			JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(StatusCaso.MORTOS, "Carregando", "mortes");
 			r.requisitarMortes(d);
 			
-			jc.setaTipoCasoDeCarregamento(StatusCaso.RECUPERADOS, "recuperados");
+			JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(StatusCaso.RECUPERADOS, "Carregando", "recuperados");
 			r.requisitarRecuperados(d);
-			
-			//Mostrar carregamento concluido e fechar tela de carregamento
-			
 		}
+		
+		//Mostrar carregamento concluido e fechar tela de carregamento
 		jc.mostraConcluidoFechaTela();
 	}
 	

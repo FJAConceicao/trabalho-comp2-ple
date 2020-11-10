@@ -191,6 +191,13 @@ public class ArquivoBase
 				
 				if (igualdadeDia)
 				{
+					if(status == StatusCaso.CONFIRMADOS)
+						JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(status, "Atualizando", "casos");
+					else if(status == StatusCaso.MORTOS)
+						JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(status, "Atualizando", "mortes");
+					else
+						JanelaCarregamento.setaTipoCasoDeInfoLabelInformativo(status, "Atualizando", "recuperados");
+					
 					atualizador.realizaAtualizacoes(tipo, status, paisAtual.getSlug(), momento.plusDays(1).toString() + ":00Z", paisAtual);
 				}
 					

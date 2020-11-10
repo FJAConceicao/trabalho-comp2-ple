@@ -91,6 +91,9 @@ public class RequisicoesUpdates
 				    
 			        	tipoDados.add(new Medicao(new Pais(pais), momento, (int) casos, status));
 			        }
+			        
+			        JanelaCarregamento.setaPais(pais.getNome());
+			        JanelaCarregamento.esperaSegundos(1000);
 			    } 
 				
 			    catch (ParseException e) {
