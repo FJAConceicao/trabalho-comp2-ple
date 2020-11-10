@@ -48,7 +48,7 @@ public class JanelaCarregamento {
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(10,10)));
 		regiaoPrincipal.add(labelGifCarregando);
 		
-		centralizarTela();
+		centralizarTela(janelaCarregamento);
 		
 		janelaCarregamento.setUndecorated(true);
 		janelaCarregamento.setSize(600, 220);
@@ -94,7 +94,7 @@ public class JanelaCarregamento {
     	
     	esperaSegundos(5000); //espera 2 seg antes de fechar
     	
-    	janelaCarregamento.dispatchEvent(new WindowEvent(janelaCarregamento, WindowEvent.WINDOW_CLOSING));
+    	janelaCarregamento.dispose();
     }
     
     private void esperaSegundos(int milissegundos) {
@@ -103,10 +103,12 @@ public class JanelaCarregamento {
     	} catch (Exception e) {}
     }
     
-    private void centralizarTela() {
-    	Dimension ds = Toolkit.getDefaultToolkit().getScreenSize();
-    	Dimension dw = janelaCarregamento.getSize();
-    	
-    	janelaCarregamento.setLocation((ds.width - dw.width) / 2, (ds.height - dw.height) / 2);
+    public static void centralizarTela(JFrame janela) {
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        janela.setSize(width/2, height/2);
+        
+        janela.setLocationRelativeTo(null);
     }
 }

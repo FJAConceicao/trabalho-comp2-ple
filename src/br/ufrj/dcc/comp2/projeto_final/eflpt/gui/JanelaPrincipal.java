@@ -22,6 +22,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.database.ArquivoBase;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.gui.JanelaCarregamento;
 
 
 /**
@@ -53,8 +54,9 @@ public class JanelaPrincipal
 		regiaoPrincipal.add(msgBemVindo);
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(painel);
-				
-		janelaPrincipal.setSize(800, 600);
+		
+		janelaPrincipal.setSize(800, 500);
+		janelaPrincipal.setLocationRelativeTo(null);
 		janelaPrincipal.setVisible(true);
 		
 		janelaPrincipal.addWindowListener(new WindowAdapter()
