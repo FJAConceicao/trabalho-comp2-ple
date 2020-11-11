@@ -23,21 +23,24 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /** 
- * 
+ * Classe para exibir os Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)
  * @author Felipe de Jesus
  */
 public class JanelaLocaisMaisProximos {
 	
-	JFrame janelaLocaisProximos;
-	Container regiaoPrincipal;
+	private JFrame janelaLocaisProximos;
+	private Container regiaoPrincipal;
 	
 	/** 
+	 * Inicia janela de Locais mais Próximos
 	 * 
-	 * @param janelaParaAtivar
-	 * @param localMaiorCresc
-	 * @param locaisMaisProximos
+	 * @param janela JFrame de janela anterior para desativar enquanto 
+	 * essa tela estiver executando. Ela é ativada ao fechamento dessa tela.
+	 * @param localMaiorCresc String com o pais de maior crescimento de casos
+	 * @param locaisMaisProximos Array de Strings com os dados de locais mais próximos do local com maior
+	 * taxa de crescimento.
 	 */
-	public void iniciaJanelaLocaisMaisProximos(JFrame janelaParaAtivar, String localMaiorCresc, String[] locaisMaisProximos)
+	public void iniciaJanelaLocaisMaisProximos(JFrame janela, String localMaiorCresc, String[] locaisMaisProximos)
 	{
 		janelaLocaisProximos = new JFrame("Locais mais próximos do local com maior crescimento");
 		janelaLocaisProximos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +78,16 @@ public class JanelaLocaisMaisProximos {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				janelaParaAtivar.setEnabled(true);
+				janela.setEnabled(true);
 			}			
 		});
 	}
 	
 	/** 
+	 * Cria tabela de locais mais próximos e adiciona ela na tela 
 	 * 
-	 * @param locaisMaisProximos
+	 * @param locaisMaisProximos Array de Strings com os locais mais próximos.
+	 * Cada string desse array é dividida e adicionada a cada linha da tabela de Locais mais próximos
 	 */
 	public void adicionaTabela(String[] locaisMaisProximos) {
 
@@ -90,7 +95,6 @@ public class JanelaLocaisMaisProximos {
 		labelTabela.setAlignmentX(Component.CENTER_ALIGNMENT);
 		labelTabela.setFont(new Font ("Times New Roman", Font.BOLD , 18));
 		
-		//Construir tabela
 		DefaultTableModel modeloTabelaLocaisProximos = new DefaultTableModel(null, new String[] {"Nº", "Local"}) {
 			
 			private static final long serialVersionUID = 1L;
@@ -119,20 +123,10 @@ public class JanelaLocaisMaisProximos {
 		tabelaLocaisProximos.getColumnModel().getColumn(0).setCellRenderer(centro);
 		tabelaLocaisProximos.getColumnModel().getColumn(1).setCellRenderer(centro);
 		
-		/* adiciona locais mais próximos na tabela baseado em uma lista de strings
-		* conteudo da linha: posicao-ranking    pais    taxa-mortalidade
-		 * */
 		for(int numero = 1; numero <= locaisMaisProximos.length; numero++) {
 			modeloTabelaLocaisProximos.addRow(new Object[] {numero, locaisMaisProximos[numero]}); //{numero, pais}
 		}
 		
-		/*
-		 * Exemplo de preenchimento da tabela com números de 1000 a 1500
-		for(int numero = 1000; numero <= 1500; numero++) {
-			modeloTabelaLocaisProximos.addRow(new Object[] {numero, numero});
-		}
-		*/
-
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaLocaisProximos);
 		scrollPaneTabela.setPreferredSize(new Dimension(400, 500));
 		

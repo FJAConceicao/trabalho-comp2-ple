@@ -23,7 +23,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /** 
- * 
+ * Classe para exibir o Ranking internacional de mortalidade, por periodo selecionado
+ * @author Felipe de Jesus
  */
 public class JanelaRankingMortalidade {
 
@@ -31,11 +32,16 @@ public class JanelaRankingMortalidade {
 	private Container regiaoPrincipal;
 	
 	/** 
-	 * Esse método pode receber a lista de linhas com {pais, valor} para plotar na tela 
-	 * @param janelaParaAtivar
-	 * @param linhas
+	 * Inicia a janela com o Ranking internacional de Mortalidade.
+	 *  
+	 * @param janela JFrame de janela anterior para desativar enquanto 
+	 * essa tela de ranking estiver executando. Ela é ativada ao fechamento 
+	 * dessa tela de ranking de mortalidade.
+	 * @param linhas Array de String com linhas no formato "pais!taxa-mortalidade".
+	 * Essas linhas serão divididas por "!" e a cada linha o pais e a taxa-mortalidade
+	 * são adicionadas em uma linha da tabela
 	 */
-	public void iniciaJanelaRankingMortalidade(JFrame janelaParaAtivar, String[] linhas)
+	public void iniciaJanelaRankingMortalidade(JFrame janela, String[] linhas)
 	{
 		janelaRankingMortalidade = new JFrame("Ranking Internacional por período de tempo");
 		regiaoPrincipal = janelaRankingMortalidade.getContentPane();
@@ -84,21 +90,11 @@ public class JanelaRankingMortalidade {
 		tabelaMortalidade.getColumnModel().getColumn(1).setCellRenderer(centro);
 		tabelaMortalidade.getColumnModel().getColumn(2).setCellRenderer(centro);
 		
-		/* adiciona os dados da mortalidade em cada linha da tabela de ranking de mortalidade
-		 * conteudo da linha: posicao-ranking    pais    taxa-mortalidade
-		 * */
 		for(int posicaoRanking = 1; posicaoRanking <= linhas.length; posicaoRanking++) {
 			String[] arrayLinha = linhas[posicaoRanking].split(",");
 			modeloTabelaMortalidade.addRow(new Object[] {posicaoRanking, arrayLinha[0], arrayLinha[1]});
 		}
 		
-		/*
-		 * Exemplo de preenchimento da tabela com números de 1000 a 1500
-		for(int numero = 1000; numero <= 1500; numero++) {
-			modeloTabelaMortalidade.addRow(new Object[] {numero, numero, numero});
-		}
-		*/
-
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaMortalidade);
 		scrollPaneTabela.setPreferredSize(new Dimension(400, 500));
 		
@@ -124,7 +120,7 @@ public class JanelaRankingMortalidade {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				janelaParaAtivar.setEnabled(true);
+				janela.setEnabled(true);
 			}			
 		});
 	}

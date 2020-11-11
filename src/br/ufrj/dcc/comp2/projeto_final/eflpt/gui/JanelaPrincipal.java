@@ -56,9 +56,8 @@ public class JanelaPrincipal
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(painel);
 		
+		centralizarTela(janelaPrincipal);
 		janelaPrincipal.setSize(800, 500);
-		janelaPrincipal.setLocationRelativeTo(null);
-
 		
 		janelaPrincipal.addWindowListener(new WindowAdapter()
 		{
@@ -336,11 +335,15 @@ public class JanelaPrincipal
 		Coletor.recebeLocalArquivo();		
 	}
 	
-	private void centralizarTela(JFrame janela) {
-    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = screenSize.height;
-        int width = screenSize.width;
-        janela.setSize(width/2, height/2);
+	/**
+	 * Centraliza a janela no meio da tela
+	 * @param janela JFrame da janela para ser centralizado
+	 */
+	public static void centralizarTela(JFrame janela) {
+    	Dimension dimensaoTela = Toolkit.getDefaultToolkit().getScreenSize();
+        int altura = dimensaoTela.height;
+        int largura = dimensaoTela.width;
+        janela.setSize(largura/2, altura/2);
 
         janela.setLocationRelativeTo(null);
     }
