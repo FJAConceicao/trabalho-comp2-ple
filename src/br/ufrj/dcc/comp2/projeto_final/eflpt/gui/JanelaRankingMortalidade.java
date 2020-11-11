@@ -44,17 +44,18 @@ public class JanelaRankingMortalidade {
 	public void iniciaJanelaRankingMortalidade(JFrame janela, String[] linhas)
 	{
 		janelaRankingMortalidade = new JFrame("Ranking Internacional por período de tempo");
+		janelaParaAtivar.setEnabled(false);
 		regiaoPrincipal = janelaRankingMortalidade.getContentPane();
 		
 		JMenuBar barraExportar = new JMenuBar();
 		JMenuItem exportar = new JMenuItem("Exportar...");
 		barraExportar.add(exportar);
-		
+		janelaRankingMortalidade.add(barraExportar);
 		exportar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e)
 			{
-				Coletor.recebeLocalArquivo();
+				Coletor.recebeLocalArquivo(linhas, "mortalidade");
 			}
 		});
 		
@@ -90,9 +91,12 @@ public class JanelaRankingMortalidade {
 		tabelaMortalidade.getColumnModel().getColumn(1).setCellRenderer(centro);
 		tabelaMortalidade.getColumnModel().getColumn(2).setCellRenderer(centro);
 		
-		for(int posicaoRanking = 1; posicaoRanking <= linhas.length; posicaoRanking++) {
-			String[] arrayLinha = linhas[posicaoRanking].split(",");
-			modeloTabelaMortalidade.addRow(new Object[] {posicaoRanking, arrayLinha[0], arrayLinha[1]});
+		/* adiciona os dados da mortalidade em cada linha da tabela de ranking de mortalidade
+		 * conteudo da linha: posicao-ranking    pais    taxa-mortalidade
+		 * */
+		for(int posicaoRanking = 0; posicaoRanking < linhas.length; posicaoRanking++) {
+			String[] arrayLinha = linhas[posicaoRanking].split("!");
+			modeloTabelaMortalidade.addRow(new Object[] {posicaoRanking+1, arrayLinha[0], arrayLinha[1]});
 		}
 		
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaMortalidade);
@@ -111,7 +115,7 @@ public class JanelaRankingMortalidade {
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(20,20)));
 		regiaoPrincipal.add(painelTabelaMortalidade);
 		
-		janelaRankingMortalidade.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaRankingMortalidade.dispatchEvent(new WindowEvent(janelaRankingMortalidade, WindowEvent.WINDOW_CLOSING));
 		janelaRankingMortalidade.setSize(800, 650);
 		janelaRankingMortalidade.setVisible(true);
 		

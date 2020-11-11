@@ -54,17 +54,19 @@ public class JanelaRankingNumeroCrescimento {
 									String[] linhasMortos)
 	{
 		janelaRanking = new JFrame("Ranking Internacional por período de tempo");
+		janelaParaAtivar.setEnabled(false);
 		regiaoPrincipal = janelaRanking.getContentPane();
+		
 		
 		JMenuBar barraExportar = new JMenuBar();
 		JMenuItem exportar = new JMenuItem("Exportar...");
 		barraExportar.add(exportar);
-		
+		janelaRanking.add(barraExportar);
 		exportar.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e)
 			{
-				Coletor.recebeLocalArquivo();
+				Coletor.recebeLocalArquivo(linhasCasos,linhasRecuperados,linhasMortos, tipoRanking);
 			}
 		});
 		
@@ -86,7 +88,7 @@ public class JanelaRankingNumeroCrescimento {
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(20,20)));
 		regiaoPrincipal.add(painelDeTabelas);
 		
-		janelaRanking.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janelaRanking.dispatchEvent(new WindowEvent(janelaRanking, WindowEvent.WINDOW_CLOSING));
 		janelaRanking.setSize(800, 650);
 		janelaRanking.setVisible(true);
 		
@@ -114,7 +116,7 @@ public class JanelaRankingNumeroCrescimento {
 		labelTituloTabela.setFont(new Font ("Times New Roman", Font.BOLD , 18));
 		labelTituloTabela.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		DefaultTableModel modeloTabela = new DefaultTableModel(null, new String[] {"Nº", "Pais", "Valor"}) {
+		DefaultTableModel modeloTabela = new DefaultTableModel(null, new String[] {"Nº", "Valor", "País"}) {
 			
 			private static final long serialVersionUID = 1L;
 			
@@ -144,9 +146,14 @@ public class JanelaRankingNumeroCrescimento {
 		tabela.getColumnModel().getColumn(1).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(2).setCellRenderer(centro);
 		
-		for(int posicaoRanking = 1; posicaoRanking <= linhas.length; posicaoRanking++) {
-			String[] arrayLinha = linhas[posicaoRanking].split(",");
-			modeloTabela.addRow(new Object[] {posicaoRanking, arrayLinha[0], arrayLinha[1]});
+		/*estrutura abaixo para adicionar os dados do tipo de Ranking na tabela*/
+		
+		/* adiciona os dados da lista de strings de rankings numeros/crescimento em cada linha da tabela
+		 * conteudo da linha: posicao-ranking    pais    valor
+		 * */
+		for(int posicaoRanking = 0; posicaoRanking < linhas.length; posicaoRanking++) {
+			String[] arrayLinha = linhas[posicaoRanking].split("!");
+			modeloTabela.addRow(new Object[] {posicaoRanking+1, arrayLinha[0], arrayLinha[1]});
 		}
 		
 		JScrollPane scrollPaneTabela = new JScrollPane(tabela);

@@ -45,5 +45,9 @@ public abstract class Estatistica
 	public abstract LocalDate dataFim();
 	
 	public abstract float valor();
+	
+	public abstract void setDataInicio(LocalDate inicio);
+	
+	public abstract void setDataFim(LocalDate fim);
 
 }
