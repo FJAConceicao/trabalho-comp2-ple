@@ -58,6 +58,7 @@ public class JanelaPrincipal
 		
 		centralizarTela(janelaPrincipal);
 		janelaPrincipal.setSize(800, 500);
+		janelaPrincipal.setVisible(true);
 		
 		janelaPrincipal.addWindowListener(new WindowAdapter()
 		{

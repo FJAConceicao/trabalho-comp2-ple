@@ -60,6 +60,7 @@ public class Controle
 		//Mostrar carregamento concluido e fechar tela de carregamento
 		jc.mostraConcluidoFechaTela();
 	}
+		
 	
 	/**
 	 * Verifica atualizações e realiza se houver
