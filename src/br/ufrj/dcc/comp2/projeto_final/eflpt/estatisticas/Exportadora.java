@@ -48,9 +48,9 @@ public class Exportadora {
 		/**
 		 * Este método gera o arquivo CSV para os casos de número de casos, taxa de crescimento e mortos.
 		 * @param arquivo Caminho do arquivo.
-		 * @param ranking Casos Ranking de casos
-		 * @param ranking Recuperados Ranking de recuperados
-		 * @param ranking Mortos Ranking de mortos
+		 * @param rankingCasos Casos Ranking de casos
+		 * @param rankingRecuperados Recuperados Ranking de recuperados
+		 * @param rankingMortos Mortos Ranking de mortos
 		 */
 		public static void geraArquivoCSV(File arquivo, String[] rankingCasos,String[] rankingRecuperados,String[] rankingMortos ) {
 			try{
@@ -60,7 +60,7 @@ public class Exportadora {
 				FileOutputStream saida = new FileOutputStream(arq);
 				PrintStream ps = new PrintStream(saida);
 			
-				ps.print("Nº" + "," + "Valor" + "," + "País");
+				ps.print("Nº" + "," + "Valor" + "," + "País" + "\n");
 				int posicao = 1;
 				
 				for(String i : rankingCasos) {
@@ -88,7 +88,7 @@ public class Exportadora {
 				FileOutputStream saida = new FileOutputStream(arq);
 				PrintStream ps = new PrintStream(saida);
 			
-				ps.print("Nº" + "\t" + "Valor" + "\t" + "País");
+				ps.print("Nº" + "\t" + "Valor" + "\t" + "País" + "\n");
 				int posicao = 1;
 				
 				for(String i : ranking) {
@@ -119,7 +119,7 @@ public class Exportadora {
 				FileOutputStream saida = new FileOutputStream(arq);
 				PrintStream ps = new PrintStream(saida);
 			
-				ps.print("Nº" + "\t" + "Valor" + "\t" + "País");
+				ps.print("Nº" + "\t" + "Valor" + "\t" + "País" + "\n");
 				int posicao = 1;
 				
 				for(String i : rankingCasos) {

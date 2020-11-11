@@ -77,14 +77,14 @@ public class RequisicaoInicial
 			    } 
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraErroEncerraPrograma(null,
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
 			    											  "Erro ao obter algum país",
 			    											  codStatus,
 			    											  "Erro de requisição");
 			    }
 		    }
 		    else {
-		    	MensagensDeErro.mostraErroEncerraPrograma(null,
+		    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
 						  								  "Ocorreu um erro durante a requisição",
 						  								  codStatus,
 						  								  "Erro de requisição");
@@ -93,14 +93,14 @@ public class RequisicaoInicial
 		} 
 			
 		catch (IOException e) {
-			MensagensDeErro.mostraErroEncerraPrograma(null,
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
 												 	  "Problema com a conexão",
 												 	  codStatus,
 												 	  "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
-			MensagensDeErro.mostraErroEncerraPrograma(null,
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(),
 													  "Requisição interrompida",
 													  codStatus,
 													  "Erro de requisição");
@@ -170,14 +170,14 @@ public class RequisicaoInicial
 			    }
 				
 			    catch (ParseException e) {
-			    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 			    											  String.format("Erro ao receber informações (País: %s)", paisAtual.getNome()),
 							  								  codStatus,
 							  								  "Erro de requisição");
 			    }
 		    }
 		    else {
-		    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+		    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 		    											  "Ocorreu um erro durante a requisição",
 						  								  codStatus,
 						  								  "Erro de requisição");
@@ -185,14 +185,14 @@ public class RequisicaoInicial
 		}
 	   
 		catch (IOException e) {
-			MensagensDeErro.mostraErroEncerraPrograma(null, 
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 													  "Problema com a conexão",
 													  codStatus,
 													  "Erro de requisição");
 		} 
 			
 		catch (InterruptedException e) {
-			MensagensDeErro.mostraErroEncerraPrograma(null, 
+			MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 					  								  "Requisição interrompida",
 					  								  codStatus,
 					  								  "Erro de requisição");
@@ -312,14 +312,14 @@ public class RequisicaoInicial
 				    } 
 					
 				    catch (ParseException e) {
-				    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+				    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 				    											  "Erro ao obter número de casos e momento (País: " + paisAtual.getNome() + ")",
 				    											  codStatus,
 				    											  "Erro de requisição");
 				    }
 			    }
 			    else {
-			    	MensagensDeErro.mostraErroEncerraPrograma(null, 
+			    	MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 			    											  "Ocorreu um erro durante a requisição",
 							  								  codStatus,
 							  								  "Erro de requisição");
@@ -327,14 +327,14 @@ public class RequisicaoInicial
 			} 
 				
 			catch (IOException e) {
-				MensagensDeErro.mostraErroEncerraPrograma(null, 
+				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Problema com a conexão",
 														  codStatus,
 														  "Erro de requisição");
 			} 
 				
 			catch (InterruptedException e) {
-				MensagensDeErro.mostraErroEncerraPrograma(null, 
+				MensagensDeErro.mostraErroEncerraPrograma(JanelaCarregamento.getJanelaPrincipal(), 
 														  "Requisição interrompida",
 														  codStatus,
 														  "Erro de requisição");
