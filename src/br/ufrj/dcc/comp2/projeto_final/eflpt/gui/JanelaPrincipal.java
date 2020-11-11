@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -55,9 +56,8 @@ public class JanelaPrincipal
 		regiaoPrincipal.add(Box.createRigidArea(new Dimension(50,50)));
 		regiaoPrincipal.add(painel);
 		
+		centralizarTela(janelaPrincipal);
 		janelaPrincipal.setSize(800, 500);
-		janelaPrincipal.setLocationRelativeTo(null);
-		janelaPrincipal.setVisible(true);
 		
 		janelaPrincipal.addWindowListener(new WindowAdapter()
 		{
@@ -312,6 +312,17 @@ public class JanelaPrincipal
 	}
 	
 	
-	
-	
+	/**
+	 * Centraliza a janela no meio da tela
+	 * @param janela JFrame da janela para ser centralizado
+	 */
+	public static void centralizarTela(JFrame janela) {
+    	Dimension dimensaoTela = Toolkit.getDefaultToolkit().getScreenSize();
+        int altura = dimensaoTela.height;
+        int largura = dimensaoTela.width;
+        janela.setSize(largura/2, altura/2);
+
+        janela.setLocationRelativeTo(null);
+    }
+
 }

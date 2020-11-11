@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,15 +23,31 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
-
+/**
+ * Classe para exibir o Ranking internacional de Número ou Crescimento de casos/recuperados/mortos, por periodo selecionado
+ * @author Felipe de Jesus 
+ */
 public class JanelaRankingNumeroCrescimento {
 
 	private JFrame janelaRanking;
 	private JPanel painelDeTabelas;
 	private Container regiaoPrincipal;
 	
-	public void iniciaJanelaRanking(JFrame janelaParaAtivar, 
+	/**
+	 * Inicia a janela de Ranking internacional de número ou taxa de crescimento de casos/recuperados/mortos
+	 * 
+	 * @param janela JFrame de janela anterior para desativar enquanto 
+	 * essa tela de ranking estiver executando. Ela é ativada ao fechamento 
+	 * dessa tela de ranking de mortalidade.
+	 * @param tipoRanking É o tipo de Ranking que será exibido no labelInicial, podendo ser "Número" ou "Crescimento".
+	 * @param linhasCasos Array de String com linhas no formato "pais!valor". Essas linhas serão 
+	 * divididas por "!" e a cada linha o pais e o valor são adicionadas cada linha da tabela de Casos
+	 * @param linhasRecuperados É um array de linhas do mesmo formato citado na linhaCasos. Os dados de 
+	 * cada linha são adicionadas em cada linha da tabela de Recuperados.
+	 * @param linhasMortos É um array de linhas do mesmo formato citado na linhaCasos/Recuperados. Os dados de 
+	 * cada linha são adicionadas em cada linha da tabela de Recuperados.
+	 */
+	public void iniciaJanelaRanking(JFrame janela, 
 									String tipoRanking, //Número ou Crescimento
 									String[] linhasCasos,
 									String[] linhasRecuperados,
@@ -59,7 +74,6 @@ public class JanelaRankingNumeroCrescimento {
 		
 		painelDeTabelas = new JPanel(new FlowLayout());
 		
-		//Adicionar tabelas de rankings ao painel de tabelas
 		adicionaTabelaRanking("Casos", linhasCasos);
 		adicionaTabelaRanking("Recuperados", linhasRecuperados);
 		adicionaTabelaRanking("Mortos", linhasMortos);
@@ -83,15 +97,22 @@ public class JanelaRankingNumeroCrescimento {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				janelaParaAtivar.setEnabled(true);
+				janela.setEnabled(true);
 			}			
 		});
 	}
 	
-	//Esse método precisa receber alguma lista de valores {pais, valor} para adicionar na tabela
-	private void adicionaTabelaRanking(String nomeLabelTitulo, String[] linhas) //List<Medicao> medicoes 
+	//
+	
+	/**
+	 * Adiciona tabela ranking na tela de Ranking internacional e coloca os dados do ranking na tabela
+	 * 
+	 * @param nomeTabela Nome e titulo da tabela, pode ser "Casos", "Recuperados" ou "Mortos"
+	 * @param linhas Array de linhas com as linhas de dados para adicionar nas linhas da tabela.
+	 */
+	private void adicionaTabelaRanking(String nomeTabela, String[] linhas) 
 	{
-		JLabel labelTituloTabela = new JLabel(nomeLabelTitulo);
+		JLabel labelTituloTabela = new JLabel(nomeTabela);
 		labelTituloTabela.setFont(new Font ("Times New Roman", Font.BOLD , 18));
 		labelTituloTabela.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -120,7 +141,6 @@ public class JanelaRankingNumeroCrescimento {
 		
 		DefaultTableCellRenderer centro = new DefaultTableCellRenderer();
 		centro.setHorizontalAlignment(SwingConstants.CENTER);
-		//centro.setVerticalAlignment(SwingConstants.CENTER);
 		
 		tabela.getColumnModel().getColumn(0).setCellRenderer(centro);
 		tabela.getColumnModel().getColumn(1).setCellRenderer(centro);
@@ -136,16 +156,6 @@ public class JanelaRankingNumeroCrescimento {
 			modeloTabela.addRow(new Object[] {posicaoRanking+1, arrayLinha[0], arrayLinha[1]});
 		}
 		
-		/*
-		//Modelo com lista de Medições --> List<Medicoes> medicoes
-		List<Medicao> medicoes = null;
-		for(int numero = 1; numero <= linhas.length; numero++) {
-			String nomePais = medicoes.get(numero).getPais().getNome();
-			int valorCasos = medicoes.get(numero).getCasos();
-			modeloTabela.addRow(new Object[] {numero, nomePais, valorCasos});
-		}
-		*/
-		
 		JScrollPane scrollPaneTabela = new JScrollPane(tabela);
 		scrollPaneTabela.setPreferredSize(new Dimension(250, 500));
 		
@@ -154,7 +164,6 @@ public class JanelaRankingNumeroCrescimento {
 		painel.add(labelTituloTabela);
 		painel.add(scrollPaneTabela);
 		
-		//Adiciona painel com titulo e tabela no painel de tabelas
 		painelDeTabelas.add(painel);
 	}
 }

@@ -22,12 +22,25 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/** 
+ * Classe para exibir os Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)
+ * @author Felipe de Jesus
+ */
 public class JanelaLocaisMaisProximos {
 	
 	private JFrame janelaLocaisProximos;
 	private Container regiaoPrincipal;
 	
-	public void iniciaJanelaLocaisMaisProximos(JFrame janelaParaAtivar, String localMaiorCresc, String[] locaisMaisProximos)
+	/** 
+	 * Inicia janela de Locais mais Próximos
+	 * 
+	 * @param janela JFrame de janela anterior para desativar enquanto 
+	 * essa tela estiver executando. Ela é ativada ao fechamento dessa tela.
+	 * @param localMaiorCresc String com o pais de maior crescimento de casos
+	 * @param locaisMaisProximos Array de Strings com os dados de locais mais próximos do local com maior
+	 * taxa de crescimento.
+	 */
+	public void iniciaJanelaLocaisMaisProximos(JFrame janela, String localMaiorCresc, String[] locaisMaisProximos)
 	{
 		janelaLocaisProximos = new JFrame("Locais mais próximos do local com maior crescimento");
 		janelaParaAtivar.setEnabled(false);
@@ -66,18 +79,23 @@ public class JanelaLocaisMaisProximos {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				
-				janelaParaAtivar.setEnabled(true);
+				janela.setEnabled(true);
 			}			
 		});
 	}
 	
+	/** 
+	 * Cria tabela de locais mais próximos e adiciona ela na tela 
+	 * 
+	 * @param locaisMaisProximos Array de Strings com os locais mais próximos.
+	 * Cada string desse array é dividida e adicionada a cada linha da tabela de Locais mais próximos
+	 */
 	public void adicionaTabela(String[] locaisMaisProximos) {
 
 		JLabel labelTabela = new JLabel("Locais mais próximos");
 		labelTabela.setAlignmentX(Component.CENTER_ALIGNMENT);
 		labelTabela.setFont(new Font ("Times New Roman", Font.BOLD , 18));
 		
-		//Construir tabela
 		DefaultTableModel modeloTabelaLocaisProximos = new DefaultTableModel(null, new String[] {"Nº", "Local"}) {
 			
 			private static final long serialVersionUID = 1L;
@@ -112,9 +130,7 @@ public class JanelaLocaisMaisProximos {
 		for(int numero = 0; numero < locaisMaisProximos.length; numero++) {
 			modeloTabelaLocaisProximos.addRow(new Object[] {numero+1, locaisMaisProximos[numero].split("!")[0]}); //{numero, pais}
 		}
-		
-		
-
+    
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaLocaisProximos);
 		scrollPaneTabela.setPreferredSize(new Dimension(400, 500));
 		
