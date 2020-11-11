@@ -54,7 +54,7 @@ public class JanelaRankingNumeroCrescimento {
 									String[] linhasMortos)
 	{
 		janelaRanking = new JFrame("Ranking Internacional por período de tempo");
-		janelaParaAtivar.setEnabled(false);
+		janela.setEnabled(false);
 		regiaoPrincipal = janelaRanking.getContentPane();
 		
 		

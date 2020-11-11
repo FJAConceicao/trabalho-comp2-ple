@@ -43,7 +43,7 @@ public class JanelaLocaisMaisProximos {
 	public void iniciaJanelaLocaisMaisProximos(JFrame janela, String localMaiorCresc, String[] locaisMaisProximos)
 	{
 		janelaLocaisProximos = new JFrame("Locais mais próximos do local com maior crescimento");
-		janelaParaAtivar.setEnabled(false);
+		janela.setEnabled(false);
 		janelaLocaisProximos.dispatchEvent(new WindowEvent(janelaLocaisProximos, WindowEvent.WINDOW_CLOSING));
 		
 		JMenuBar barraExportar = new JMenuBar();

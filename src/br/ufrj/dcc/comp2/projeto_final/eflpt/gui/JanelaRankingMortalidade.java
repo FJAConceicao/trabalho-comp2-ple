@@ -44,7 +44,7 @@ public class JanelaRankingMortalidade {
 	public void iniciaJanelaRankingMortalidade(JFrame janela, String[] linhas)
 	{
 		janelaRankingMortalidade = new JFrame("Ranking Internacional por período de tempo");
-		janelaParaAtivar.setEnabled(false);
+		janela.setEnabled(false);
 		regiaoPrincipal = janelaRankingMortalidade.getContentPane();
 		
 		JMenuBar barraExportar = new JMenuBar();

@@ -54,6 +54,8 @@ public class Exportadora {
 		 */
 		public static void geraArquivoCSV(File arquivo, String[] rankingCasos,String[] rankingRecuperados,String[] rankingMortos ) {
 			try{
+				
+				
 				File arq = arquivo;
 				FileOutputStream saida = new FileOutputStream(arq);
 				PrintStream ps = new PrintStream(saida);
