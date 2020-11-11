@@ -23,15 +23,16 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /** 
- * 
+ * Classe para exibir os Locais mais próximos do local com maior crescimento de casos confirmados em um período de tempo, até um raio r (km)
  * @author Felipe de Jesus
  */
 public class JanelaLocaisMaisProximos {
 	
-	JFrame janelaLocaisProximos;
-	Container regiaoPrincipal;
+	private JFrame janelaLocaisProximos;
+	private Container regiaoPrincipal;
 	
 	/** 
+	 * Inicia janela de Locais mais Próximos
 	 * 
 	 * @param janelaParaAtivar
 	 * @param localMaiorCresc
@@ -119,20 +120,10 @@ public class JanelaLocaisMaisProximos {
 		tabelaLocaisProximos.getColumnModel().getColumn(0).setCellRenderer(centro);
 		tabelaLocaisProximos.getColumnModel().getColumn(1).setCellRenderer(centro);
 		
-		/* adiciona locais mais próximos na tabela baseado em uma lista de strings
-		* conteudo da linha: posicao-ranking    pais    taxa-mortalidade
-		 * */
 		for(int numero = 1; numero <= locaisMaisProximos.length; numero++) {
 			modeloTabelaLocaisProximos.addRow(new Object[] {numero, locaisMaisProximos[numero]}); //{numero, pais}
 		}
 		
-		/*
-		 * Exemplo de preenchimento da tabela com números de 1000 a 1500
-		for(int numero = 1000; numero <= 1500; numero++) {
-			modeloTabelaLocaisProximos.addRow(new Object[] {numero, numero});
-		}
-		*/
-
 		JScrollPane scrollPaneTabela = new JScrollPane(tabelaLocaisProximos);
 		scrollPaneTabela.setPreferredSize(new Dimension(400, 500));
 		
