@@ -2,13 +2,17 @@ package br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 
+/**
+ * Esta classe gera os rankings para os ranking referentes a Casos.
+ * @author edrods
+ *
+ */
 public class TotalCasos extends Estatistica {
 	
 	private Dados d = Dados.retornaInstancia();	
@@ -17,6 +21,11 @@ public class TotalCasos extends Estatistica {
 	private LocalDate dataInicio;
 	private LocalDate dataFim;
 	
+	
+	/**
+	 * Este método gera o ranking internacional do número de casos.
+	 * @return ranking Uma String[] com o nome do pais e seu respectivo valor.
+	 */
 	public String[] rankingCasos() {
 		
 		StringBuilder sb = new StringBuilder();
@@ -35,7 +44,7 @@ public class TotalCasos extends Estatistica {
 		for(Map.Entry<Integer,String> entry : rankingCasos.entrySet()) {
 			pais = entry.getValue();
 			casos = entry.getKey();
-			sb.append(pais).append("!").append(casos).append(";");
+			sb.append(casos).append("!").append(pais).append(";");
 		}
 		ranking = sb.toString().split(";");
 		
@@ -44,6 +53,11 @@ public class TotalCasos extends Estatistica {
 		
 	}
 	
+	
+	/**
+	 * Este método gera o ranking da taxa de crescimento do número de casos confirmados
+	 * @return ranking Uma String[] com o nome do pais e seu respectivo valor.
+	 */
 	public String[] rankingCasosCrescimento() {
 		
 		int casosIniciais = 0;
@@ -102,7 +116,12 @@ public class TotalCasos extends Estatistica {
 		
 	}
 	
-	
+	/**
+	 * Este método gera os países mais próximos daquele que possui maior crescimento dado um raio.
+	 * @param raio A distancia que o usuário deseja.
+	 * @param pais O pais referência para os cálculos de distância.
+	 * @return Uma String[] com o nome do pais e sua respectivo distância.
+	 */
 	
 	public String[] rankingRaio(int raio, String pais) {
 		
@@ -144,7 +163,12 @@ public class TotalCasos extends Estatistica {
 		return ranking;
 		
 	}
-			
+	
+	
+	/**
+	 * Este método gera o ranking de taxa de letalidade entre os países.
+	 * @return ranking Uma String[] com o nome do pais e seu respectivo valor.
+	 */
 	public String[] rankingMortalidade() {
 		
 		TreeMap<String,Integer> confirmados = new TreeMap<>();
@@ -195,26 +219,45 @@ public class TotalCasos extends Estatistica {
 		return ranking;
 	}
 	
+	/**
+	 * Este método fornece o valor da dataInicio escolhida pelo usuário.
+	 * @return dataInicio Data fornecida pelo usuário
+	 */
 	@Override
 	public LocalDate dataInicio() {
 		return dataInicio;
 	}
-
+	
+	/**
+	 * Este método fornece o valor da dataFim escolhida pelo usuário.
+	 * @return dataFim Data fornecida pelo usuário
+	 */
 	@Override
 	public LocalDate dataFim() {
 		return dataFim;
 	}
-
+	
+	/**
+	 * Este método fornece o valor.
+	 * @return valor Variável valor 
+	 */
 	@Override
 	public float valor() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	
+	/**
+	 * Este método atualiza a dataFim.
+	 * 
+	 */
 	public void setDataFim(LocalDate fim) {
 			dataFim = fim;
 	}
 	
+	/**
+	 * Este método atualiza a dataInicio.
+	 * 
+	 */
 	public void setDataInicio(LocalDate inicio) {
 		 dataInicio = inicio;
 	}

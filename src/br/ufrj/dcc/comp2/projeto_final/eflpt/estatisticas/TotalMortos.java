@@ -8,6 +8,11 @@ import java.util.TreeMap;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.Medicao;
 
+/**
+ * Esta classe gera os rankings referentes a Mortos(rip).
+ * @author edrods
+ *
+ */
 public class TotalMortos extends Estatistica {
 
 	private Dados d = Dados.retornaInstancia();	
@@ -15,6 +20,10 @@ public class TotalMortos extends Estatistica {
 	private LocalDate dataFim;
 	private LocalDate dataInicio;
 	
+	/**
+	 * Este método gera o ranking internacional do número de mortos.
+	 * @return ranking Uma String[] com o nome do pais e seu respectivo valor.
+	 */
 	public String[] rankingMortos() {
 		
 		
@@ -45,6 +54,10 @@ public class TotalMortos extends Estatistica {
 		
 	}
 	
+	/**
+	 * Este método gera o ranking da taxa de crescimento do número de mortos.
+	 * @return ranking Uma String[] com o nome do pais e seu respectivo valor.
+	 */
 	public String[] rankingMortosCrescimento() {
 		int casosIniciais = 0;
 		int casosFinais = 0;
@@ -101,18 +114,30 @@ public class TotalMortos extends Estatistica {
 		
 	}
 	
-	
+	/**
+	 * Este método fornece o valor da dataInicio escolhida pelo usuário.
+	 * @return dataInicio Data fornecida pelo usuário
+	 */
 	@Override
 	public LocalDate dataInicio() {
 		
 		
 		return dataInicio;
 	}
-
+	
+	/**
+	 * Este método fornece o valor da dataFim escolhida pelo usuário.
+	 * @return dataFim Data fornecida pelo usuário
+	 */
 	@Override
 	public LocalDate dataFim() {
 		return dataFim;
 	}
+	
+	/**
+	 * Este método fornece o valor.
+	 * @return valor Variável valor 
+	 */
 
 	@Override
 	public float valor() {
@@ -120,10 +145,18 @@ public class TotalMortos extends Estatistica {
 		return 0;
 	}
 	
+	/**
+	 * Este método atualiza a dataFim.
+	 * 
+	 */
 	public void setDataFim(LocalDate fim) {
 		dataFim = fim;
 	}
-
+	
+	/**
+	 * Este método atualiza a dataInicio.
+	 * 
+	 */
 	public void setDataInicio(LocalDate inicio) {
 	 dataInicio = inicio;
 	}

@@ -95,7 +95,7 @@ public class JanelaRankingNumeroCrescimento {
 		labelTituloTabela.setFont(new Font ("Times New Roman", Font.BOLD , 18));
 		labelTituloTabela.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		DefaultTableModel modeloTabela = new DefaultTableModel(null, new String[] {"Nº", "Pais", "Valor"}) {
+		DefaultTableModel modeloTabela = new DefaultTableModel(null, new String[] {"Nº", "Valor", "País"}) {
 			
 			private static final long serialVersionUID = 1L;
 			

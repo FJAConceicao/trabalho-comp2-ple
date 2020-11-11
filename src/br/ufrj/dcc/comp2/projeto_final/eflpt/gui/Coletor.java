@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Estatistica;
+import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.Exportadora;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalCasos;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalMortos;
 import br.ufrj.dcc.comp2.projeto_final.eflpt.estatisticas.TotalRecuperados;
@@ -87,7 +89,8 @@ public class Coletor
 	 * @return true se elas são corretas, false c.c.
 	 */
 	public static boolean verificaDatas(LocalDate data1, LocalDate data2, JTextField campo)
-	{
+	{	
+		LocalDate dataLimite = LocalDate.now();
 		if (data1.isAfter(data2)) // Verifica se a data início vem antes da data fim
 		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
@@ -97,7 +100,7 @@ public class Coletor
 			return false;
 		}
 		
-		if (data1.isAfter(LocalDate.now()) || data2.isAfter(LocalDate.now())) // Verifica se uma das duas datas está no futuro
+		if (data1.isAfter(dataLimite) || data2.isAfter(dataLimite)) // Verifica se uma das duas datas está no futuro
 		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
 					 							 "Uma das datas está no futuro.",
@@ -114,11 +117,22 @@ public class Coletor
 
 			return false;
 		}
-		if(data1.equals(LocalDate.now()) || data2.equals(LocalDate.now())) {
-			
+		if(data1.equals(dataLimite) || data2.equals(dataLimite)) // Verifica se o usuário está pedindo dados que ainda não foram atualizados
+		{
 			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
-					 "Os dados de hoje ainda não foram atualizados, espere o intervalo de 1 dia para fazer esta consulta",
-					 "Erro ao receber data");
+												"Os dados de hoje ainda não foram atualizados, espere o intervalo de 1 dia para fazer esta consulta",
+												"Erro ao receber data");
+
+			return false;
+		
+		}
+		
+		
+		if(data2.equals(dataLimite.minusDays(2))) //Verifica se o usuário está pedindo dados que ainda não foram atualizados
+		{
+			MensagensDeErro.mostraMensagemDeErro(campo.getParent(),
+												"Os dados de hoje ainda não foram atualizados, espere o intervalo de 1 dia para fazer esta consulta",
+												"Erro ao receber data");
 
 			return false;
 		}
@@ -268,12 +282,12 @@ public class Coletor
 			
 			if (arquivo.getName().toLowerCase().endsWith(".csv"))
 			{
-				
+				verificaTipoRanking(tipoRanking, ranking, "csv", arquivo);
 				// Chamar método para salvar os rankings
 			}
 			else if (arquivo.getName().toLowerCase().endsWith(".tsv"))
 			{
-				
+				verificaTipoRanking(tipoRanking, ranking, "tsv", arquivo);
 				// Chamar método para salvar os rankings
 			}
 			else
@@ -285,7 +299,100 @@ public class Coletor
 		}
 	}
 	
-	public static void recebeLocalArquivo(String[] rankingCasos, String[] rankingRecuperados, String[] rankingMortos, String tipoRanking) {
-		
+	/**
+	 * Verifica qual consulta será exportado e chama o método correposdente
+	 * @param tipoRanking O tipo de consulta que foi realizada
+	 * @param 
+	 */
+	public static void verificaTipoRanking(String tipoRanking, String[] ranking, String tipoArquivo, File arquivo) {
+		switch(tipoRanking) {
+		case "mortalidade":
+			if(tipoArquivo.equalsIgnoreCase("csv")) 
+			{
+				Exportadora.geraArquivoCSV(arquivo, ranking);
+			} else 
+			{
+				Exportadora.geraArquivoTSV(arquivo, ranking);
+			}
+			break;
+		case "raio":
+			if(tipoArquivo.equalsIgnoreCase("csv")) 
+			{
+				Exportadora.geraArquivoCSV(arquivo, ranking);
+			} else
+			{
+				Exportadora.geraArquivoTSV(arquivo, ranking);
+			}
+			
+			break;
+		}
 	}
+	
+	public static void recebeLocalArquivo(String[] rankingCasos, String[] rankingRecuperados, String[] rankingMortos, String tipoRanking) {
+		File arquivo;
+		JFileChooser verArqSistema = new JFileChooser();
+		FileNameExtensionFilter filtroCsv = new FileNameExtensionFilter("CSV (separado por vírgulas)", "csv");
+		FileNameExtensionFilter filtroTsv = new FileNameExtensionFilter("Texto (separado por tabulações)", "tsv");
+		JDialog salvarArquivo = new JDialog();
+		verArqSistema.setAcceptAllFileFilterUsed(false);
+		verArqSistema.setFileFilter(filtroCsv);
+		verArqSistema.setFileFilter(filtroTsv);
+		int confirmar = verArqSistema.showSaveDialog(salvarArquivo);
+		
+		if (confirmar == JFileChooser.APPROVE_OPTION)
+		{
+			arquivo = verArqSistema.getSelectedFile();	
+			
+			if (arquivo.getName().toLowerCase().endsWith(".csv"))
+			{
+				verificaTipoRanking(rankingCasos, rankingRecuperados, rankingMortos, tipoRanking, "csv", arquivo);
+				// Chamar método para salvar os rankings
+			}
+			else if (arquivo.getName().toLowerCase().endsWith(".tsv"))
+			{
+				verificaTipoRanking(rankingCasos, rankingRecuperados, rankingMortos, tipoRanking, "tsv", arquivo);
+				// Chamar método para salvar os rankings
+			}
+			else
+			{
+				MensagensDeErro.mostraMensagemDeErro(verArqSistema.getParent(),
+													 "Apenas arquivos .tsv e .csv são suportados",
+													 "Erro ao receber local arquivo");
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param tipo 
+	 */
+	public static void verificaTipoRanking(String[] rankingCasos, String[] rankingRecuperados, String[] rankingMortos,String tipoRanking, String tipoArquivo, File arquivo) {
+		switch(tipoRanking) {
+		case "Crescimento":
+			if(tipoArquivo.equalsIgnoreCase("csv")) 
+			{
+				Exportadora.geraArquivoCSV(arquivo, rankingCasos, rankingRecuperados, rankingMortos);
+			} else
+			{
+				Exportadora.geraArquivoTSV(arquivo, rankingCasos, rankingRecuperados, rankingMortos);
+			}
+			
+			break;
+		case "Número":
+			if(tipoArquivo.equalsIgnoreCase("csv")) 
+			{
+				Exportadora.geraArquivoCSV(arquivo, rankingCasos, rankingRecuperados, rankingMortos);
+			} else
+			{
+				Exportadora.geraArquivoTSV(arquivo, rankingCasos, rankingRecuperados, rankingMortos);
+			}
+			
+			break;
+		
+		}
+	}
+	
+	
+
+	
 }
